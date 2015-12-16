@@ -13,7 +13,7 @@ from . import utils
 
 def main():
     """Application logging."""
-    Utils = utils.Utils()
+    Utils = utils.AppUtils()
     configPath = Utils.configPath
     loggingFile = os.path.join(configPath, "{0}.log".format(const.APP_NAME))
 
