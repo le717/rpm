@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*
 
 import src.constants as const
+import src.init.help as init
 import src.install.help as install
 import src.settings.help as settings
 
 
 def main(command=None):
     commandsAvailable = {
+        "init": init.main,
         "install": install.main,
         "settings": settings.main
     }
