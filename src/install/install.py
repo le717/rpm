@@ -90,6 +90,7 @@ def main(package):
         logging.warning("There was an error building LEGO.JAM!")
         return False
 
+    # TODO Keep log of installed packages
     logging.info("Installation complete!")
     print("\nPackage {0} sucessfully installed".format(package))
     return True
