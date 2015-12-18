@@ -4,6 +4,7 @@
 import sys
 
 from src.help import help
+from src.init import init
 from src.install import install
 from src.settings import settings
 from src.utils import logger
@@ -39,6 +40,7 @@ def main():
     # Define all available commands
     commandsAvailable = {
         "help": help.main,
+        "init": init.main,
         "install": install.main,
         "settings": settings.main
     }
