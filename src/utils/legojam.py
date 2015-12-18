@@ -20,20 +20,20 @@ def main(action):
         return False
 
     # We need to only extract/build when release is 1999 or N/A
-    shouldAct = (True if settings["lrVer"] in ("1999", None) else False)
+    shouldAct = (True if settings["gameRelease"] in ("1999", None) else False)
 
     # Perform the desired action
     if action == "extract" and shouldAct:
         logging.info("Extracting LEGO.JAM")
         return JAMExtractor.extract(os.path.join(
-            settings["lrPath"], "LEGO.JAM"), False)
+            settings["gameLocation"], "LEGO.JAM"), False)
 
     elif action == "build" and shouldAct:
         logging.info("Building LEGO.JAM")
         r = JAMExtractor.build(os.path.join(
-            settings["lrPath"], "LEGO"), False)
+            settings["gameLocation"], "LEGO"), False)
 
         # Delete the extracted files
         logging.info("Deleting extracted files")
-        shutil.rmtree(os.path.join(settings["lrPath"], "LEGO"))
+        shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
         return r

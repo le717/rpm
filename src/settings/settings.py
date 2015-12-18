@@ -67,8 +67,8 @@ def __confirmGame(gamePath):
 def main(*args):
     pathExists = False
     appOpts = {
-        "lrPath": None,
-        "lrVer": None
+        "gameLocation": None,
+        "gameRelease": None
     }
 
     # Keep asking for a path until we get one
@@ -77,8 +77,8 @@ def main(*args):
         pathExists = __confirmGame(gamePath)
 
     # Extract the information we need
-    appOpts["lrPath"] = gamePath.replace("\\", "/")
-    appOpts["lrVer"] = __getVersion(gamePath)
+    appOpts["gameLocation"] = gamePath.replace("\\", "/")
+    appOpts["gameRelease"] = __getVersion(gamePath)
 
     # Save the settings
     user.UserSettings().save(appOpts)

@@ -21,7 +21,7 @@ def main(package):
     settings = user.UserSettings().load()
 
     # We do not have any settings
-    if settings is None or not os.path.isdir(settings["lrPath"]):
+    if settings is None or not os.path.isdir(settings["gameLocation"]):
         logging.warning("User has not yet configured settings")
         print("You need to configure your settings before installing!")
         return False
@@ -82,7 +82,7 @@ def main(package):
         # Install the package
         logging.info("Extracting archive")
         print("Installing package")
-        z.extractall(settings["lrPath"], packageFiles)
+        z.extractall(settings["gameLocation"], packageFiles)
 
     # Compress the JAM
     jamResult = legojam.main("build")
