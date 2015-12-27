@@ -70,7 +70,7 @@ def main(package):
                 f.flush()
 
     # Extract the JAM
-    jamResult = legojam.main("extract")
+    jamResult, extractPath = legojam.main("extract")
     if not jamResult:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
@@ -80,6 +80,7 @@ def main(package):
         packageFiles = z.namelist()
 
         # The required package.json file is missing
+        # TODO Proper validation
         if "package.json" not in packageFiles:
             logging.warning("package.json not found!")
             print("Package is missing package.json and cannot be installed")
@@ -89,9 +90,9 @@ def main(package):
         packageFiles.remove("package.json")
 
         # Install the package
-        logging.info("Extracting archive")
+        logging.info("Extracting package to {0}".format(extractPath))
         print("Installing package")
-        z.extractall(settings["gameLocation"], packageFiles)
+        z.extractall(extractPath, packageFiles)
 
     # Compress the JAM
     jamResult = legojam.main("build")
