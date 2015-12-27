@@ -86,9 +86,8 @@ Press ^C at any time to quit.
 
         # Create the required folder structure
         logging.info("Creating folders")
-        rootPath = os.path.join(os.getcwd(), "LEGO")
-        folders = (os.path.join(rootPath, "MENUDATA"),
-                   os.path.join(rootPath, "GAMEDATA"))
+        folders = (os.path.join(os.getcwd(), "MENUDATA"),
+                   os.path.join(os.getcwd(), "GAMEDATA"))
         for fol in folders:
             if not os.path.isdir(fol):
                 os.makedirs(fol)
