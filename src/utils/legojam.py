@@ -37,7 +37,7 @@ def __buildJAM(path):
 
 
 def __findExtractedJam(path):
-   """Find a possible pre-extracted JAM archive.
+    """Find a possible pre-extracted JAM archive.
 
     @param {String} path Absolute path to game installation.
     @returns {Tuple} @todo
@@ -82,16 +82,41 @@ def main(action):
     # Find possible pre-extracted files
     preExtracted = __findExtractedJam(settings["gameLocation"])
 
-    # Perform the desired action
-    if action == "extract" and needsJam:
-        logging.info("Extracting LEGO.JAM")
-        return __extractJAM(settings["gameLocation"])
+    # File used to note if we extracted a JAM archive
+    extractionIndicator = os.path.join(settings["gameLocation"], "extracted")
 
-    elif action == "build" and needsJam:
-        logging.info("Building LEGO.JAM")
-        r = __buildJAM(settings["gameLocation"])
+    # JAM extraction has been requested
+    if action == "extract":
+        # The JAM has already been extracted
+        if preExtracted[0]:
+            logging.info("LEGO.JAM has already been extracted")
+            return preExtracted
 
-        # Delete the extracted files
-        logging.info("Deleting extracted files")
-        shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
-        return r
+        # The JAM needs to be extracted
+        else:
+            # Create the indicator file
+            f = open(extractionIndicator, "xt")
+            f.close()
+
+            logging.info("Extracting LEGO.JAM")
+            return (__extractJAM(settings["gameLocation"]),
+                    os.path.join(settings["gameLocation"], "LEGO"))
+
+    # JAM building has been requested
+    elif action == "build":
+        # We do not need a built JAM archive
+        if not needsJam:
+            logging.info("LEGO.JAM does not need building")
+            return True
+
+        # We need a built JAM archive
+        else:
+            logging.info("Building LEGO.JAM")
+            r = __buildJAM(os.path.join(settings["gameLocation"]))
+
+            # Delete the extracted files only if we created them
+            if os.path.isfile(extractionIndicator):
+                logging.info("Deleting extracted files")
+                os.remove(extractionIndicator)
+                shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
+            return r
