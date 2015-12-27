@@ -79,6 +79,8 @@ def main(action):
     # This game release requires a JAM archive
     needsJam = (True if settings["gameRelease"] in (None, "1999") else False)
 
+    # Find possible pre-extracted files
+    preExtracted = __findExtractedJam(settings["gameLocation"])
 
     # Perform the desired action
     if action == "extract" and needsJam:
@@ -93,5 +95,3 @@ def main(action):
         logging.info("Deleting extracted files")
         shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
         return r
-    # Find possible pre-extracted files
-    preExtracted = __findExtractedJam(settings["gameLocation"])
