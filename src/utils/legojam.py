@@ -18,6 +18,24 @@ from src.settings import user
 from src.lib import JAMExtractor
 
 
+def __extractJAM(path):
+    """Helper function to extract the JAM archive.
+
+    @param {String} path Absolute path to game installation.
+    @returns {Boolean} True if extraction was successful, False otherwise.
+    """
+    return JAMExtractor.extract(os.path.join(path, "LEGO.JAM"), False)
+
+
+def __buildJAM(path):
+    """Helper function to build the JAM archive.
+
+    @param {String} path Absolute path to game installation.
+    @returns {Boolean} True if build was successful, False otherwise.
+    """
+    return JAMExtractor.build(os.path.join(path, "LEGO"), False)
+
+
 def main(action):
     # Get the user settings
     settings = user.UserSettings().load()
@@ -28,19 +46,32 @@ def main(action):
         print("You need to configure your settings before installing!")
         return False
 
-    # We need to only extract/build when release is 1999 or N/A
-    shouldAct = (True if settings["gameRelease"] in ("1999", None) else False)
+    # This game release requires a JAM archive
+    needsJam = (True if settings["gameRelease"] in (None, "1999") else False)
+
+    # Define possible locations for pre-extracted files
+    isExtracted = False
+    extractedPaths = (
+        (os.path.join(settings["gameLocation"], "MENUDATA"),
+         os.path.join(settings["gameLocation"], "GAMEDATA")),
+        (os.path.join(settings["gameLocation"], "LEGO", "MENUDATA"),
+         os.path.join(settings["gameLocation"], "LEGO", "GAMEDATA"))
+    )
+
+    # The MENUDATA/GAMEDATA folders already exist
+    for pathGroup in extractedPaths:
+        if os.path.isdir(pathGroup[0]) and os.path.isdir(pathGroup[1]):
+            isExtracted = True
+            break
 
     # Perform the desired action
-    if action == "extract" and shouldAct:
+    if action == "extract" and needsJam:
         logging.info("Extracting LEGO.JAM")
-        return JAMExtractor.extract(os.path.join(
-            settings["gameLocation"], "LEGO.JAM"), False)
+        return __extractJAM(settings["gameLocation"])
 
-    elif action == "build" and shouldAct:
+    elif action == "build" and needsJam:
         logging.info("Building LEGO.JAM")
-        r = JAMExtractor.build(os.path.join(
-            settings["gameLocation"], "LEGO"), False)
+        r = __buildJAM(settings["gameLocation"])
 
         # Delete the extracted files
         logging.info("Deleting extracted files")
