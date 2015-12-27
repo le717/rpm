@@ -40,7 +40,9 @@ def __findExtractedJam(path):
     """Find a possible pre-extracted JAM archive.
 
     @param {String} path Absolute path to game installation.
-    @returns {Tuple} @todo
+    @returns {Tuple.<boolean, ?string>} Index 0 will be False if no path
+                                        was found. If True, index 1 will be
+                                        the the path to the extracted files.
     """
     results = (False,)
     extractedPaths = (
