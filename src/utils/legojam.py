@@ -36,6 +36,36 @@ def __buildJAM(path):
     return JAMExtractor.build(os.path.join(path, "LEGO"), False)
 
 
+def __findExtractedJam(path):
+   """Find a possible pre-extracted JAM archive.
+
+    @param {String} path Absolute path to game installation.
+    @returns {Tuple} @todo
+    """
+    results = (False,)
+    extractedPaths = (
+        (os.path.join(path, "MENUDATA"),
+         os.path.join(path, "GAMEDATA")),
+        (os.path.join(path, "LEGO", "MENUDATA"),
+         os.path.join(path, "LEGO", "GAMEDATA"))
+    )
+
+    # The MENUDATA/GAMEDATA folders already exist
+    for pathGroup in extractedPaths:
+        if os.path.isdir(pathGroup[0]) and os.path.isdir(pathGroup[1]):
+            # Get the exact path detected
+            extractedPath = None
+            if extractedPaths.index(pathGroup) == 0:
+                extractedPath = path
+            else:
+                extractedPath = os.path.join(path, "LEGO")
+
+            results = (True, extractedPath)
+            break
+
+    return results
+
+
 def main(action):
     # Get the user settings
     settings = user.UserSettings().load()
@@ -49,20 +79,6 @@ def main(action):
     # This game release requires a JAM archive
     needsJam = (True if settings["gameRelease"] in (None, "1999") else False)
 
-    # Define possible locations for pre-extracted files
-    isExtracted = False
-    extractedPaths = (
-        (os.path.join(settings["gameLocation"], "MENUDATA"),
-         os.path.join(settings["gameLocation"], "GAMEDATA")),
-        (os.path.join(settings["gameLocation"], "LEGO", "MENUDATA"),
-         os.path.join(settings["gameLocation"], "LEGO", "GAMEDATA"))
-    )
-
-    # The MENUDATA/GAMEDATA folders already exist
-    for pathGroup in extractedPaths:
-        if os.path.isdir(pathGroup[0]) and os.path.isdir(pathGroup[1]):
-            isExtracted = True
-            break
 
     # Perform the desired action
     if action == "extract" and needsJam:
@@ -77,3 +93,5 @@ def main(action):
         logging.info("Deleting extracted files")
         shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
         return r
+    # Find possible pre-extracted files
+    preExtracted = __findExtractedJam(settings["gameLocation"])
