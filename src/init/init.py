@@ -27,8 +27,8 @@ Press ^C at any time to quit.
         packageDetails = {
             "name": None,
             "version": None,
-            "description": None,
             "author": None,
+            "description": None,
             "homepage": None
             }
 
@@ -74,8 +74,8 @@ Press ^C at any time to quit.
 
         # Get the remaining package details
         logging.info("Collecting remaining package details")
-        packageDetails["description"] = input("description: ")
         packageDetails["author"] = input("author: ")
+        packageDetails["description"] = input("description: ")
         packageDetails["homepage"] = input("homepage: ")
 
         # Write package.json
