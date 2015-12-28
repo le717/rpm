@@ -21,7 +21,7 @@ from src.lib import JAMExtractor
 def __extractJAM(path):
     """Helper function to extract the JAM archive.
 
-    @param {String} path Absolute path to game installation.
+    @param {String} path An absolute path to game installation.
     @returns {Boolean} True if extraction was successful, False otherwise.
     """
     return JAMExtractor.extract(os.path.join(path, "LEGO.JAM"), False)
@@ -30,7 +30,7 @@ def __extractJAM(path):
 def __buildJAM(path):
     """Helper function to build the JAM archive.
 
-    @param {String} path Absolute path to game installation.
+    @param {String} path An absolute path to game installation.
     @returns {Boolean} True if build was successful, False otherwise.
     """
     return JAMExtractor.build(os.path.join(path, "LEGO"), False)
@@ -39,7 +39,7 @@ def __buildJAM(path):
 def __findExtractedJam(path):
     """Find a possible pre-extracted JAM archive.
 
-    @param {String} path Absolute path to game installation.
+    @param {String} path An absolute path to game installation.
     @returns {Tuple.<boolean, ?string>} Index 0 will be False if no path
                                         was found. If True, index 1 will be
                                         the the path to the extracted files.

@@ -19,6 +19,7 @@ from clint.textui import progress
 from . import packagelist
 from src.settings import user
 from src.utils import legojam, utils
+from src.validator import validator
 
 
 def main(package):
@@ -81,11 +82,14 @@ def main(package):
         packageFiles = z.namelist()
 
         # The required package.json file is missing
-        # TODO Proper validation
         if not validator.hasPackageJson(packageFiles):
             logging.warning("package.json not found!")
             print("Package is missing package.json and cannot be installed")
             return False
+
+        # TODO Proper validation
+        # Extract package.json for validation
+        z.extract("package.json", appUtils.tempPath)
 
         # Remove the JSON from the archive so it is not extracted
         packageFiles.remove("package.json")
