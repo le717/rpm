@@ -13,7 +13,7 @@ Licensed under The MIT License
 import os
 import json
 import logging
-from src.utils import validate
+from src.validator import validator
 
 
 def main(*args):
@@ -39,7 +39,7 @@ Press ^C at any time to quit.
 
         while not validName:
             packageName = input("name: ({0}) ".format(defaultName))
-            result = validate.validateName(packageName)
+            result = validator.validateName(packageName)
 
             # Display error message if needed
             if not result[0]:
@@ -58,7 +58,7 @@ Press ^C at any time to quit.
 
         while not validVersion:
             packageVersion = input("version: (1.0.0) ")
-            result = validate.validateVersion(packageVersion)
+            result = validator.validateVersion(packageVersion)
 
             # Display error message if needed
             if not result[0]:
@@ -100,5 +100,5 @@ Boilerplate structure for package {0} sucessfully created.""".format(
     # The user canceled the processed
     except KeyboardInterrupt:
         logging.info("User canceled package creation.")
-        print("Package creation canceled.")
+        print("\nPackage creation canceled.")
         return False
