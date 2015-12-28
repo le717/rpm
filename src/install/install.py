@@ -28,6 +28,7 @@ def main(package):
 
     # Get the user settings
     settings = user.UserSettings().load()
+    appUtils = utils.AppUtils()
 
     # We do not have any settings
     if settings is None or not os.path.isdir(settings["gameLocation"]):
@@ -59,7 +60,7 @@ def main(package):
 
     # Write the package to disk
     # Sourced from http://stackoverflow.com/a/20943461
-    destZip = os.path.join(utils.AppUtils().cachePath,
+    destZip = os.path.join(appUtils.cachePath,
                            "{0}.zip".format(package))
     with open(destZip, "wb") as f:
         total_length = int(r.headers.get("content-length"))
