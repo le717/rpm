@@ -14,8 +14,8 @@ import os
 import json
 import logging
 
-from src.utils import utils
 from src import constants as const
+from src.utils import utils, jsonutils
 
 
 class AppSettings:
@@ -27,26 +27,10 @@ class AppSettings:
     def load(self):
         """Load the app settings.
 
-        @returns {Boolean} True if app settings were loaded, False otherwise.
+        @returns {@todo|Boolean} @todo,
+                                 False if app settings were not loaded.
         """
-        try:
-            # Make sure it exists
-            if os.path.exists(self.__file):
-                logging.info("Reading app settings from {0}".format(
-                             self.__file))
-                with open(self.__file, "rt", encoding="utf-8") as f:
-                    data = json.load(f)
-                return data
-
-            # The settings have not been previously written
-            else:
-                logging.warning("The stored settings are not available!")
-                return None
-
-        # The file is not valid JSON, sliently fail
-        except ValueError:
-            logging.warning("The stored settings are not available!")
-            return None
+        return jsonutils.read(self.__file)
 
     def save(self, value):
         """Write the app settings.
