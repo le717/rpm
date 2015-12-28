@@ -110,12 +110,18 @@ def main(action):
         # We do not need a built JAM archive
         if not needsJam:
             logging.info("LEGO.JAM does not need building")
+
+            # If we had extract the JAM despite not needing to rebuld it,
+            # we still need to delete the indicator file
+            if os.path.isfile(extractionIndicator):
+                logging.info("Deleting extracted files indicator")
+                os.remove(extractionIndicator)
             return True
 
         # We need a built JAM archive
         else:
             logging.info("Building LEGO.JAM")
-            r = __buildJAM(os.path.join(settings["gameLocation"]))
+            r = __buildJAM(settings["gameLocation"])
 
             # Delete the extracted files only if we created them
             if os.path.isfile(extractionIndicator):
