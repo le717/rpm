@@ -26,13 +26,17 @@ class AppUtils:
     * isWindows {Boolean} True if the user is running a Windows OS.
     * configPath {String} An absolute path to the app's configuration folder.
     * cachePath {String} An absolute path to the download cache folder.
+    * tempPath {String} An absolute path to a temporary files folder.
     """
 
     def __init__(self):
         """Initalize public properties and run utility functions."""
         self.isWindows = "Windows" in platform.platform()
         self.configPath = self.__getConfigPath()
-        self.cachePath = os.path.join(self.configPath, "cache")
+        self.cachePath = self.__createFolder(
+            os.path.join(self.configPath, "cache"))
+        self.tempPath = self.__createFolder(
+            os.path.join(self.configPath, "temp"))
 
     def __getConfigPath(self):
         """Get the file path where configuration files will be stored.
@@ -52,8 +56,14 @@ class AppUtils:
         if not os.path.exists(path):
             os.makedirs(path)
 
-        # Create the cache path
-        cachePath = os.path.join(path, "cache")
-        if not os.path.exists(cachePath):
-            os.makedirs(cachePath)
+        return path
+
+    def __createFolder(self, path):
+        """Create the given folder and all preceeding folders.
+
+        @param {String} path An absolute path for the desired folder.
+        @returns {String} The folder path given in the path parameter.
+        """
+        if not os.path.exists(path):
+            os.makedirs(path)
         return path
