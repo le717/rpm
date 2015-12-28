@@ -97,6 +97,7 @@ def main(action):
         # The JAM needs to be extracted
         else:
             # Create the indicator file
+            logging.info("Creating extracted files indicator")
             f = open(extractionIndicator, "xt")
             f.close()
 
@@ -118,7 +119,9 @@ def main(action):
 
             # Delete the extracted files only if we created them
             if os.path.isfile(extractionIndicator):
-                logging.info("Deleting extracted files")
+                logging.info("Deleting extracted files indicator")
                 os.remove(extractionIndicator)
+
+                logging.info("Deleting extracted files")
                 shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
             return r
