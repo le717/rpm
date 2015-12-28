@@ -72,3 +72,12 @@ def validateVersion(version):
         return (False, "Invalid version: \"{0}\"".format(version))
     return (True,)
 
+
+def hasPackageJson(files):
+    """Check if package.json is present in the package archive.
+
+    @param {Tuple|List} files Files in the archive.
+    @returns {Boolean} True if package.json in list, False otherwise.
+    """
+    return "package.json" in files
+

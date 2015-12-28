@@ -82,7 +82,7 @@ def main(package):
 
         # The required package.json file is missing
         # TODO Proper validation
-        if "package.json" not in packageFiles:
+        if not validator.hasPackageJson(packageFiles):
             logging.warning("package.json not found!")
             print("Package is missing package.json and cannot be installed")
             return False
