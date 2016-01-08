@@ -19,13 +19,13 @@ def read(path):
     """Read and parse a JSON file from disk.
 
     @param {String} path An absolute path to the JSON file to be read.
-    @returns {@todo|Boolean} @todo
+    @returns {@todo|NoneType} @todo
     """
     try:
         # Make sure it exists
         if not os.path.isfile(path):
             logging.warning("Cannot find JSON file {0}".format(path))
-            return False
+            return None
 
         # Read and parse the file
         logging.info("Reading JSON file {0}".format(path))
@@ -36,7 +36,7 @@ def read(path):
     # The file is not valid JSON, sliently fail
     except ValueError:
         logging.warning("Cannot parse JSON file {0}".format(path))
-        return False
+        return None
 
 
 def write(path, data):
