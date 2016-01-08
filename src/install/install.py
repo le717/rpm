@@ -61,8 +61,7 @@ def main(package):
 
     # Write the package to disk
     # Sourced from http://stackoverflow.com/a/20943461
-    destZip = os.path.join(appUtils.cachePath,
-                           "{0}.zip".format(package))
+    destZip = os.path.join(appUtils.cachePath, "{0}.zip".format(package))
     with open(destZip, "wb") as f:
         total_length = int(r.headers.get("content-length"))
         for chunk in progress.bar(r.iter_content(chunk_size=1024),
