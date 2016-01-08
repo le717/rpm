@@ -39,13 +39,21 @@ def read(path):
         return None
 
 
-def write(path, data):
+def write(path, data, indent=None):
     """Write a JSON file to disk.
 
-    @todo Implement this function!
-
     @param {String} path An absolute path to the JSON file to be written.
-    @param {String} data The data to be written.
-    @returns {@todo} @todo
+    @param {*} data The JSON-parsable data to be written.
+    @param {Integer} [indent=None] Indentation level of resulting file.
+    @returns {Boolean} True if successfully written, False otherwise.
     """
-    pass
+    try:
+        with open(path, "wt", encoding="utf-8") as f:
+            f.write(json.dumps(data, indent=indent, sort_keys=True))
+            logging.info("JSON file {0} successfully written".format(path))
+        return True
+
+    # Silently fail
+    except PermissionError:
+        logging.warning("JSON file {0} could not be written!".format(path))
+        return False
