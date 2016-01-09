@@ -93,7 +93,7 @@ def main(*args):
         pathExists = __confirmGame(gamePath)
 
     # Extract the information we need
-    appOpts["gameLocation"] = gamePath.replace("\\", "/")
+    appOpts["gameLocation"] = os.path.abspath(gamePath.replace("\\", "/"))
     appOpts["gameRelease"] = __getVersion(gamePath)
 
     # Save the settings
