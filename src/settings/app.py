@@ -11,7 +11,6 @@ Licensed under The MIT License
 
 
 import os
-import json
 import logging
 
 from src import constants as const
@@ -27,9 +26,9 @@ class AppSettings:
     def load(self):
         """Load the app settings.
 
-        @returns {@todo|Boolean} @todo,
-                                 False if app settings were not loaded.
+        @returns See documentation for jsonutils::read.
         """
+        logging.info("Loading app settings")
         return jsonutils.read(self.__file)
 
     def save(self, value):
@@ -37,19 +36,11 @@ class AppSettings:
 
         @todo Do I really need this method?
 
-        @returns {Boolean} True if app settings were written, False otherwise.
+        @returns See documentation for jsonutils::write.
         """
-        try:
-            jsonData = {
-                "baseUrl": value
-            }
+        jsonData = {
+            "baseUrl": value
+        }
 
-            logging.info("Writing app settings to {0}".format(self.__file))
-            with open(self.__file, "wt", encoding="utf-8") as f:
-                f.write(json.dumps(jsonData, sort_keys=True))
-            return True
-
-        # Silently fail
-        except PermissionError:
-            logging.warning("Settings could not be saved!")
-            return False
+        logging.info("Writing app settings to {0}".format(self.__file))
+        return jsonutils.write(self.__file, jsonData)
