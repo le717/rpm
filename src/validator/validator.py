@@ -15,7 +15,11 @@ import logging
 from clint.textui import colored
 from src.utils import jsonutils
 
-__all__ = ("validateName", "validateVersion", "hasPackageJson", "packageJson")
+__all__ = ("PACKAGE_NAME_MAX_LENGTH", "validateName", "validateVersion",
+           "hasPackageJson", "packageJson")
+
+
+PACKAGE_NAME_MAX_LENGTH = 214
 
 
 def __makeErrorDict(value, result, message):
@@ -59,10 +63,11 @@ def validateName(name):
                                "The name cannot contain spaces.")
 
     # Length check
-    if len(name) > 214:
+    if len(name) > PACKAGE_NAME_MAX_LENGTH:
         return __makeErrorDict(name, False,
-                               "The name cannot contain more than 214"
-                               " characters.")
+                               "The name cannot contain more than"
+                               " {0} characters.".format(
+                                   PACKAGE_NAME_MAX_LENGTH))
 
     # Uppercase letter check
     if re.findall(r"[A-Z]", name):
