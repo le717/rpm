@@ -2,6 +2,7 @@
 import os
 import sys
 import unittest
+from zipfile import ZipFile
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -9,6 +10,8 @@ from src.validator import validator
 
 
 class TestValidatorMethods(unittest.TestCase):
+
+    TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "files")
 
     def test_valid_name(self):
         r = validator.validateName("rock-racers")
@@ -113,6 +116,24 @@ class TestValidatorMethods(unittest.TestCase):
         self.assertFalse(r["result"])
         self.assertEqual(r["value"], "MyVersion")
         self.assertIn("Invalid", r["message"])
+
+    def test_package_contains_package_json(self):
+        packageZip = os.path.join(self.TEST_FILES_ROOT_PATH,
+                                  "rock-racers",
+                                  "rock-racers-valid.zip")
+
+        with ZipFile(packageZip, "r") as z:
+            packageFiles = z.namelist()
+        self.assertTrue(validator.hasPackageJson(packageFiles))
+
+    def test_package_lacks_package_json(self):
+        packageZip = os.path.join(self.TEST_FILES_ROOT_PATH,
+                                  "rock-racers",
+                                  "rock-racers-missing-json.zip")
+
+        with ZipFile(packageZip, "r") as z:
+            packageFiles = z.namelist()
+        self.assertFalse(validator.hasPackageJson(packageFiles))
 
 
 if __name__ == "__main__":
