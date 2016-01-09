@@ -10,7 +10,6 @@ Licensed under The MIT License
 """
 
 
-import os
 import sys
 
 from src.help import help
@@ -67,7 +66,3 @@ def main():
         commandsAvailable["help"]()
 
     raise SystemExit(0)
-
-
-if os.path.basename(os.getcwd()) != "tests":
-    main()

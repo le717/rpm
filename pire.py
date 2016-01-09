@@ -13,3 +13,4 @@ Licensed under The MIT License
 
 if __name__ == "__main__":
     import src
+    src.main()
