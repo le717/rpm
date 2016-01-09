@@ -19,6 +19,7 @@ from . import user
 def __getVersion(gamePath):
     """Detect game release year.
 
+    @param {String} gamePath An absolute path to the game installation.
     @returns {String|NoneType} The release year or None if unavailable.
     """
     version = None
@@ -46,12 +47,18 @@ def __getVersion(gamePath):
 
 
 def __confirmGame(gamePath):
+    """Confirm a game installation at the given path.
+
+    @param {String} gamePath An absolute path to the game installation.
+    @returns {Boolean} True if a game installation was confirmed,
+                       False otherwise.
+    """
     gamePath = os.path.abspath(gamePath)
 
     # The path does not exist
     if not os.path.isdir(gamePath):
         logging.warning("Could not find game installation at {0}".format(
-            gamePath))
+                        gamePath))
         return False
 
     # Look for the expected game files
@@ -69,7 +76,7 @@ def __confirmGame(gamePath):
         return True
 
     logging.warning("Could not find game installation at {0}".format(
-        gamePath))
+                    gamePath))
     return False
 
 
@@ -91,4 +98,6 @@ def main(*args):
 
     # Save the settings
     user.UserSettings().save(appOpts)
+    print("Settings were successfully saved")
+    logging.info("User settings successfully saved")
     return True
