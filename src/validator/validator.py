@@ -91,7 +91,7 @@ def hasPackageJson(files):
     return "package.json" in files
 
 
-def __isMissingKey(keys):
+def __isMissingKeys(keys):
     result = False
     allKeys = ("name", "version", "author", "description", "homepage")
 
@@ -138,7 +138,7 @@ def packageJson(path):
         return False
 
     # Required key(s) is/are missing
-    if __isMissingKey(tuple(packageJson.keys())):
+    if __isMissingKeys(tuple(packageJson.keys())):
         return False
 
     availableValidators = {
