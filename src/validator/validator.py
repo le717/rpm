@@ -97,7 +97,7 @@ def validateVersion(version):
         return __makeErrorDict(version, False, "The version cannot be empty.")
 
     # Basic semver format
-    matches = re.match(r"^(?:[0-9][.]){2}[0-9]$", version)
+    matches = re.match(r"^(?:\d+[.]){2}\d+$", version)
     if not matches:
         return __makeErrorDict(version, False,
                                'Invalid version: "{0}"'.format(version))
