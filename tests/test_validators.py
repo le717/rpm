@@ -155,8 +155,7 @@ class TestValidatorMethods(unittest.TestCase):
                                   "rock-racers",
                                   "rock-racers-valid.zip")
 
-        with ZipFile(packageZip, "r") as z:
-            packageFiles = z.namelist()
+        packageFiles = self.list_archive_files(packageZip)
         self.assertTrue(validator.hasPackageJson(packageFiles))
 
     def test_package_lacks_package_json(self):
@@ -164,8 +163,7 @@ class TestValidatorMethods(unittest.TestCase):
                                   "rock-racers",
                                   "rock-racers-missing-json.zip")
 
-        with ZipFile(packageZip, "r") as z:
-            packageFiles = z.namelist()
+        packageFiles = self.list_archive_files(packageZip)
         self.assertFalse(validator.hasPackageJson(packageFiles))
 
 
