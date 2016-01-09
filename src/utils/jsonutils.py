@@ -19,7 +19,8 @@ def read(path):
     """Read and parse a JSON file from disk.
 
     @param {String} path An absolute path to the JSON file to be read.
-    @returns {@todo|NoneType} @todo
+    @returns {*|NoneType} The parsed JSON data,
+                        None if file could not be loaded or parsed.
     """
     try:
         # Make sure it exists
