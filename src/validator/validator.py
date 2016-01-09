@@ -18,6 +18,14 @@ from src.utils import jsonutils
 __all__ = ("validateName", "validateVersion", "hasPackageJson", "packageJson")
 
 
+def __makeErrorDict(value, result, message):
+    return {
+        "message": message,
+        "result": result,
+        "value": value
+    }
+
+
 def validateName(name):
     """Validate the package name.
 
@@ -29,25 +37,31 @@ def validateName(name):
     name = name.strip()
     # Empty name
     if name == "":
-        return (False, "The name cannot be empty.")
+        return __makeErrorDict(name, False, "The name cannot be empty.")
 
     # Leading dot/underscore check
     if name[0] == ".":
-        return (False, "The name cannot start with a period.")
+        return __makeErrorDict(name, False,
+                               "The name cannot start with a period.")
     if name[0] == "_":
-        return (False, "The name cannot start with an underscore.")
+        return __makeErrorDict(name, False,
+                               "The name cannot start with an underscore.")
 
     # Spaces check
     if re.findall(r"\s", name):
-        return (False, "The name cannot contain spaces.")
+        return __makeErrorDict(name, False,
+                               "The name cannot contain spaces.")
 
     # Length check
     if len(name) > 214:
-        return (False, "The name cannot contain more than 214 characters.")
+        return __makeErrorDict(name, False,
+                               "The name cannot contain more than 214"
+                               " characters.")
 
     # Uppercase letter check
     if re.findall(r"[A-Z]", name):
-        return (False, "The name cannot contain capital letters.")
+        return __makeErrorDict(name, False,
+                               "The name cannot contain capital letters.")
 
     badChars = ("\\", "/", ":", "*", "?", '"', "<", ">", "|")
     badNames = ("aux", "com1", "com2", "com3", "com4", "con",
@@ -55,12 +69,14 @@ def validateName(name):
 
     # Invalid Windows names/charcters check
     if name in badNames:
-        return (False, "Name \"{0}\" is not allowed.".format(name))
+        return __makeErrorDict(name, False,
+                               'Name "{0}" is not allowed.'.format(name))
     for char in name:
         if char in badChars:
-            return (False, "The character \"{0}\" is not allowed.".format(
-                    char))
-    return (True,)
+            return __makeErrorDict(name, False,
+                                   'The character "{0}" is not allowed.'
+                                   .format(char))
+    return __makeErrorDict(name, True, None)
 
 
 def validateVersion(version):
@@ -73,13 +89,14 @@ def validateVersion(version):
     version = version.strip()
     # Empty version
     if version == "":
-        return (False, "The version cannot be empty.")
+        return __makeErrorDict(version, False, "The version cannot be empty.")
 
     # Basic semver format
     matches = re.match(r"^(?:[0-9][.]){2}[0-9]$", version)
     if not matches:
-        return (False, "Invalid version: \"{0}\"".format(version))
-    return (True,)
+        return __makeErrorDict(version, False,
+                               'Invalid version: "{0}"'.format(version))
+    return __makeErrorDict(version, True, None)
 
 
 def hasPackageJson(files):
@@ -154,8 +171,8 @@ def packageJson(path):
             r = availableValidators[k](v)
 
             # A test failed, collect the error message
-            if not r[0]:
+            if not r["result"]:
                 logging.warning("Validation for key {0} failed!".format(k))
-                results.append(r[1])
+                results.append(r["message"])
 
     return (results if results else False)

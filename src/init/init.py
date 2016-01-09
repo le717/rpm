@@ -18,15 +18,15 @@ from src.validator import validator
 __all__ = ("main")
 
 
-def __displayError(results, value):
+def __displayError(value, message):
     """Display a validation error message.
 
-    @param {Tuple} The error results.
     @param {String} value The invalid value in question.
+    @param {String} message The error message.
     """
     logging.warning("Invalid package value: {0}".format(value))
-    logging.debug("Reason: {0}".format(results[1]))
-    print(results[1])
+    logging.debug("Reason: {0}".format(message))
+    print(message)
 
 
 def __getPackageName():
@@ -45,13 +45,13 @@ def __getPackageName():
 
         # We still need to validate both a user-supplied name
         # and the default name
-        result = validator.validateName(packageName)
+        r = validator.validateName(packageName)
 
         # Display error message if needed
-        if result[0]:
-            validName = result[0]
+        if r["result"]:
+            validName = r["result"]
         else:
-            __displayError(result, packageName)
+            __displayError(r["value"], r["message"])
     return packageName
 
 
@@ -67,13 +67,13 @@ def __getPackageVersion():
         # The default value will be used
         if packageVersion == "":
             break
-        result = validator.validateVersion(packageVersion)
+        r = validator.validateVersion(packageVersion)
 
         # Display error message if needed
-        if result[0]:
-            validVersion = result[0]
+        if r["result"]:
+            validVersion = r["result"]
         else:
-            __displayError(result, packageVersion)
+            __displayError(r["value"], r["message"])
     return (packageVersion if packageVersion else "1.0.0")
 
 
