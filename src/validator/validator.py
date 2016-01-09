@@ -19,6 +19,14 @@ __all__ = ("validateName", "validateVersion", "hasPackageJson", "packageJson")
 
 
 def __makeErrorDict(value, result, message):
+    """Create an error dictionary.
+
+    @param {*} value The value in question that caused the error.
+    @param {*} result The error status.
+    @param {*} message The error message.
+    @returns {Dictionary.<value, result, message>} An error dictionary.
+                                                   Keys are same as params.
+    """
     return {
         "message": message,
         "result": result,
@@ -30,9 +38,7 @@ def validateName(name):
     """Validate the package name.
 
     @param {String} name The package name.
-    @returns {Tuple.<boolean, ?string>} Index 0 will be True if valid name.
-                                        If False, index 1 will reason
-                                        the name is invalid.
+    @returns {Dictionary} See signature for private __makeErrorDict method.
     """
     name = name.strip()
     # Empty name
@@ -83,8 +89,7 @@ def validateVersion(version):
     """Validate the package version.
 
     @param {String} version The package version.
-    @returns {Tuple.<boolean, ?string>} Index 0 will be True if valid version.
-                                        If False index 1 will be error message.
+    @returns {Dictionary} See signature for private __makeErrorDict method.
     """
     version = version.strip()
     # Empty version

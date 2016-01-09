@@ -23,7 +23,7 @@ fileName = os.path.join(utils.AppUtils().configPath, "app.json")
 def load():
     """Load the app settings.
 
-    @returns See documentation for jsonutils::read.
+    @returns See signature for jsonutils::read.
     """
     logging.info("Loading app settings")
     return jsonutils.read(fileName)
@@ -34,7 +34,7 @@ def save(value):
 
     @todo Do I really need this method?
 
-    @returns See documentation for jsonutils::write.
+    @returns See signature for jsonutils::write.
     """
     jsonData = {
         "baseUrl": value
