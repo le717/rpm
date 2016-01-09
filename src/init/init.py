@@ -15,6 +15,67 @@ import logging
 from src.utils import jsonutils
 from src.validator import validator
 
+__all__ = ("main")
+
+
+def __displayError(results, value):
+    """Display a validation error message.
+
+    @param {Tuple} The error results.
+    @param {String} value The invalid value in question.
+    """
+    logging.warning("Invalid package value: {0}".format(value))
+    logging.debug("Reason: {0}".format(results[1]))
+    print(results[1])
+
+
+def __getPackageName():
+    """Get the package name.
+
+    @returns {String}
+    """
+    defaultName = os.path.basename(os.getcwd())
+    validName = False
+
+    while not validName:
+        packageName = input("name: ({0}) ".format(defaultName))
+        # The default value will be used
+        if packageName == "":
+            packageName = defaultName
+
+        # We still need to validate both a user-supplied name
+        # and the default name
+        result = validator.validateName(packageName)
+
+        # Display error message if needed
+        if result[0]:
+            validName = result[0]
+        else:
+            __displayError(result, packageName)
+    return validName
+
+
+def __getPackageVersion():
+    """Get the package version.
+
+    @returns {String}
+    """
+    validVersion = False
+
+    while not validVersion:
+        packageVersion = input("version: (1.0.0) ")
+        # The default value will be used
+        if packageVersion == "":
+            break
+        result = validator.validateVersion(packageVersion)
+
+        # Display error message if needed
+        if result[0]:
+            validVersion = result[0]
+        else:
+            __displayError(result, packageVersion)
+    return (packageVersion if packageVersion else "1.0.0")
+
 
 def main(*args):
     print("""This utility will walk you through creating a package.json file.
@@ -30,56 +91,13 @@ Press ^C at any time to quit.
             "author": None,
             "description": None,
             "homepage": None
-            }
+        }
 
-        # Get the package name
+        # Get the package name and version
         logging.info("Collecting package name")
-        defaultName = os.path.basename(os.getcwd())
-        validName = False
-
-        while not validName:
-            packageName = input("name: ({0}) ".format(defaultName))
-            # The default value will be used
-            if packageName == "":
-                packageName = defaultName
-
-            # We still need to validate both a user-supplied name
-            # and the default name
-            result = validator.validateName(packageName)
-
-            # Display error message if needed
-            if not result[0]:
-                logging.warning("Invalid package name {0}!".format(
-                                packageName))
-                logging.debug("Reason: {0}".format(result[1]))
-                print(result[1])
-            validName = result[0]
-
-        # Store the package name
-        packageDetails["name"] = packageName
-
-        # Get the package version
+        packageDetails["name"] = __getPackageName()
         logging.info("Collecting package version")
-        validVersion = False
-
-        while not validVersion:
-            packageVersion = input("version: (1.0.0) ")
-            # The default value will be used
-            if packageVersion == "":
-                break
-            result = validator.validateVersion(packageVersion)
-
-            # Display error message if needed
-            if not result[0]:
-                logging.warning("Invalid package version {0}!".format(
-                                packageVersion))
-                logging.debug("Reason: {0}".format(result[1]))
-                print(result[1])
-            validVersion = result[0]
-
-        # Store the package version
-        packageDetails["version"] = (packageVersion if packageVersion
-                                     else "1.0.0")
+        packageDetails["version"] = __getPackageVersion()
 
         # Get the remaining package details
         logging.info("Collecting remaining package details")
