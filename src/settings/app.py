@@ -13,15 +13,15 @@ Licensed under The MIT License
 import os
 import logging
 
-from src import constants as const
 from src.utils import utils, jsonutils
+
+__all__ = ("AppSettings")
 
 
 class AppSettings:
 
     def __init__(self):
-        self.__file = os.path.join(utils.AppUtils().configPath,
-                                   "{0}.json".format(const.APP_NAME))
+        self.__file = os.path.join(utils.AppUtils().configPath, "app.json")
 
     def load(self):
         """Load the app settings.
