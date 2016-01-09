@@ -54,5 +54,4 @@ src/server/
 .vscode/
 Testing/
 
-*.zip
-*.json
+tests/files/temp/
