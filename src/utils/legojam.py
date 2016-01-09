@@ -14,7 +14,7 @@ import os
 import shutil
 import logging
 
-from src.settings import user
+from src.settings import user as userSettings
 from src.lib import JAMExtractor
 
 
@@ -70,7 +70,7 @@ def __findExtractedJam(path):
 
 def main(action):
     # Get the user settings
-    settings = user.UserSettings().load()
+    settings = userSettings.load()
 
     # We do not have any settings
     if settings is None:

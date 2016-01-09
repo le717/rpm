@@ -17,7 +17,7 @@ from zipfile import ZipFile
 from clint.textui import progress, colored
 
 from . import packagelist
-from src.settings import user
+from src.settings import user as userSettings
 from src.utils import legojam, utils
 from src.validator import validator
 
@@ -28,7 +28,7 @@ def main(package):
         return False
 
     # Get the user settings
-    settings = user.UserSettings().load()
+    settings = userSettings.load()
     appUtils = utils.AppUtils()
 
     # We do not have any settings

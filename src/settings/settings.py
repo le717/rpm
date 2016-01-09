@@ -13,7 +13,7 @@ Licensed under The MIT License
 import os
 import logging
 
-from . import user
+from . import user as userSettings
 
 
 def __getVersion(gamePath):
@@ -97,7 +97,7 @@ def main(*args):
     appOpts["gameRelease"] = __getVersion(gamePath)
 
     # Save the settings
-    user.UserSettings().save(appOpts)
+    userSettings.save(appOpts)
     print("Settings were successfully saved")
     logging.info("User settings successfully saved")
     return True
