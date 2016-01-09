@@ -29,25 +29,25 @@ def validateName(name):
     name = name.strip()
     # Empty name
     if name == "":
-        return (False, "Sorry, name cannot be empty.")
+        return (False, "The name cannot be empty.")
 
     # Leading dot/underscore check
     if name[0] == ".":
-        return (False, "Sorry, name cannot start with a period.")
+        return (False, "The name cannot start with a period.")
     if name[0] == "_":
-        return (False, "Sorry, name cannot start with an underscore.")
+        return (False, "The name cannot start with an underscore.")
 
     # Spaces check
     if re.findall(r"\s", name):
-        return (False, "Sorry, name cannot contain spaces.")
+        return (False, "The name cannot contain spaces.")
 
     # Length check
     if len(name) > 214:
-        return (False, "Sorry, name cannot contain more than 214 characters.")
+        return (False, "The name cannot contain more than 214 characters.")
 
     # Uppercase letter check
     if re.findall(r"[A-Z]", name):
-        return (False, "Sorry, name cannot contain capital letters.")
+        return (False, "The name cannot contain capital letters.")
 
     badChars = ("\\", "/", ":", "*", "?", '"', "<", ">", "|")
     badNames = ("aux", "com1", "com2", "com3", "com4", "con",
@@ -73,7 +73,7 @@ def validateVersion(version):
     version = version.strip()
     # Empty version
     if version == "":
-        return (False, "Sorry, version cannot be empty.")
+        return (False, "The version cannot be empty.")
 
     # Basic semver format
     matches = re.match(r"^(?:[0-9][.]){2}[0-9]$", version)
