@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import time
+import shutil
 import unittest
 from zipfile import ZipFile
 
@@ -12,6 +14,37 @@ from src.validator import validator
 class TestValidatorMethods(unittest.TestCase):
 
     TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "files")
+    TEST_FILES_TEMP_PATH = os.path.join(TEST_FILES_ROOT_PATH, "temp")
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.isdir(cls.TEST_FILES_TEMP_PATH):
+            os.makedirs(cls.TEST_FILES_TEMP_PATH)
+        else:
+            shutil.rmtree(cls.TEST_FILES_TEMP_PATH)
+            time.sleep(0.2)
+            os.makedirs(cls.TEST_FILES_TEMP_PATH)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.TEST_FILES_TEMP_PATH)
+
+    def list_archive_files(self, zip):
+        with ZipFile(zip, "r") as z:
+            return z.namelist()
+
+    def extract_archive(self, zip, path, file="all"):
+        packageFiles = self.list_archive_files(zip)
+        with ZipFile(zip, "r") as z:
+            if file == "all":
+                z.extractall(path, packageFiles)
+                return True
+            else:
+                if file not in packageFiles:
+                    return False
+                else:
+                    z.extract(file, path)
+                    return True
 
     def test_valid_name(self):
         r = validator.validateName("rock-racers")
