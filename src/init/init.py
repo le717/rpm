@@ -11,8 +11,8 @@ Licensed under The MIT License
 
 
 import os
-import json
 import logging
+from src.utils import jsonutils
 from src.validator import validator
 
 
@@ -80,9 +80,8 @@ Press ^C at any time to quit.
 
         # Write package.json
         logging.info("Writing package.json")
-        with open(os.path.join("{0}".format(os.getcwd()), "package.json"),
-                  "wt", encoding="utf-8") as f:
-            f.write(json.dumps(packageDetails, indent=4, sort_keys=True))
+        packageJson = os.path.join(os.getcwd(), "package.json")
+        jsonutils.write(packageJson, packageDetails, 4)
 
         # Create the required folder structure
         logging.info("Creating folders")
@@ -92,9 +91,8 @@ Press ^C at any time to quit.
             if not os.path.isdir(fol):
                 os.makedirs(fol)
 
-        print("""
-Boilerplate structure for package {0} sucessfully created.""".format(
-            packageDetails["name"]))
+        print("\nBoilerplate for package {0} sucessfully created.".format(
+              packageDetails["name"]))
         return True
 
     # The user canceled the processed
