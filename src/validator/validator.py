@@ -11,6 +11,8 @@ Licensed under The MIT License
 
 
 import re
+import logging
+from clint.textui import colored
 
 
 def validateName(name):
@@ -84,4 +86,29 @@ def hasPackageJson(files):
     @returns {Boolean} True if package.json in list, False otherwise.
     """
     return "package.json" in files
+
+
+def __isMissingKey(keys):
+    result = False
+    allKeys = ("name", "version", "author", "description", "homepage")
+
+    # Check for key existance
+    for key in allKeys:
+        # There is a missing key in the JSON
+        if key not in keys:
+            # One of the required keys is missing, abort
+            if key in ("name", "version"):
+                logging.error("Fatal: missing package.json key: {0}".format(
+                              key))
+                print(colored.red(
+                      "Fatal error: {0} key missing".format(key), bold=True))
+                result = True
+                break
+
+            # An optional key is missing, issue a warning
+            else:
+                logging.warning("Missing package.json key: {0}".format(key))
+                print(colored.yellow(
+                      "Warning: {0} key missing".format(key), bold=True))
+    return result
 
