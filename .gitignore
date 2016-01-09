@@ -51,6 +51,7 @@ pip-log.txt
 # Temporary
 src/server/
 
+.vscode/
 Testing/
 
 *.zip
