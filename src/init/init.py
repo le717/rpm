@@ -52,7 +52,7 @@ def __getPackageName():
             validName = result[0]
         else:
             __displayError(result, packageName)
-    return validName
+    return packageName
 
 
 def __getPackageVersion():
