@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import time
-import shutil
 import unittest
 from zipfile import ZipFile
 
@@ -18,17 +16,16 @@ class TestValidatorMethods(unittest.TestCase):
     TEST_FILES_TEMP_PATH = os.path.join(TEST_FILES_ROOT_PATH, "temp")
 
     @classmethod
-    def setUpClass(cls):
-        if not os.path.isdir(cls.TEST_FILES_TEMP_PATH):
-            os.makedirs(cls.TEST_FILES_TEMP_PATH)
-        else:
-            shutil.rmtree(cls.TEST_FILES_TEMP_PATH)
-            time.sleep(0.2)
-            os.makedirs(cls.TEST_FILES_TEMP_PATH)
-
-    @classmethod
-    def tearDownClass(cls):
-        shutil.rmtree(cls.TEST_FILES_TEMP_PATH)
+    def delete_temp_files(self):
+        """Taken from Python docs.
+        https://docs.python.org/3/library/os.html#os.walk
+        """
+        for root, dirs, files in os.walk(self.TEST_FILES_TEMP_PATH,
+                                         topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
 
     def list_archive_files(self, zip):
         with ZipFile(zip, "r") as z:
@@ -46,6 +43,17 @@ class TestValidatorMethods(unittest.TestCase):
                 else:
                     z.extract(file, path)
                     return True
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.isdir(cls.TEST_FILES_TEMP_PATH):
+            os.makedirs(cls.TEST_FILES_TEMP_PATH)
+        else:
+            cls.delete_temp_files()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.delete_temp_files()
 
     def test_valid_name(self):
         r = validator.validateName("rock-racers")
@@ -171,7 +179,8 @@ class TestValidatorMethods(unittest.TestCase):
         self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
                              "rock-racers", "rock-racers-valid.zip"),
                              os.path.join(self.TEST_FILES_TEMP_PATH,
-                                          "rock-racers-valid"))
+                                          "rock-racers-valid"),
+                             "package.json")
 
         packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
                                                   "rock-racers-valid",
@@ -183,7 +192,8 @@ class TestValidatorMethods(unittest.TestCase):
         self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
                              "rock-racers", "rock-racers-missing-keys.zip"),
                              os.path.join(self.TEST_FILES_TEMP_PATH,
-                                          "rock-racers-missing-keys"))
+                                          "rock-racers-missing-keys"),
+                             "package.json")
 
         packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
                                                   "rock-racers-missing-keys",
