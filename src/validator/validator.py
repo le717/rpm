@@ -16,7 +16,7 @@ from clint.textui import colored
 from src.utils import jsonutils
 
 __all__ = ("PACKAGE_NAME_MAX_LENGTH", "validateName", "validateVersion",
-           "hasPackageJson", "packageJson")
+           "isMissingKeys", "hasPackageJson", "packageJson")
 
 
 PACKAGE_NAME_MAX_LENGTH = 214
@@ -118,7 +118,7 @@ def hasPackageJson(files):
     return "package.json" in files
 
 
-def __isMissingKeys(keys):
+def isMissingKeys(keys):
     result = False
     allKeys = ("name", "version", "author", "description", "homepage")
 
@@ -131,7 +131,7 @@ def __isMissingKeys(keys):
                 logging.error("Fatal: missing package.json key: {0}".format(
                               key))
                 print(colored.red(
-                      "Fatal error: {0} key missing".format(key), bold=True))
+                      'Fatal error: "{0}" key missing'.format(key), bold=True))
                 result = True
                 break
 
@@ -139,7 +139,7 @@ def __isMissingKeys(keys):
             else:
                 logging.warning("Missing package.json key: {0}".format(key))
                 print(colored.yellow(
-                      "Warning: {0} key missing".format(key), bold=True))
+                      'Warning: "{0}" key missing'.format(key), bold=True))
     return result
 
 
@@ -165,7 +165,7 @@ def packageJson(path):
         return False
 
     # Required key(s) is/are missing
-    if __isMissingKeys(tuple(packageJson.keys())):
+    if isMissingKeys(tuple(packageJson.keys())):
         return False
 
     availableValidators = {

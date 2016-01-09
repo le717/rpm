@@ -9,6 +9,7 @@ from zipfile import ZipFile
 sys.path.insert(0, os.path.abspath(".."))
 
 from src.validator import validator
+from src.utils import jsonutils
 
 
 class TestValidatorMethods(unittest.TestCase):
@@ -165,6 +166,30 @@ class TestValidatorMethods(unittest.TestCase):
 
         packageFiles = self.list_archive_files(packageZip)
         self.assertFalse(validator.hasPackageJson(packageFiles))
+
+    def test_package_is_not_missing_keys(self):
+        self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
+                             "rock-racers", "rock-racers-valid.zip"),
+                             os.path.join(self.TEST_FILES_TEMP_PATH,
+                                          "rock-racers-valid"))
+
+        packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
+                                                  "rock-racers-valid",
+                                                  "package.json"
+                                                  ))
+        self.assertFalse(validator.isMissingKeys(packageJson))
+
+    def test_package_is_missing_keys(self):
+        self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
+                             "rock-racers", "rock-racers-missing-keys.zip"),
+                             os.path.join(self.TEST_FILES_TEMP_PATH,
+                                          "rock-racers-missing-keys"))
+
+        packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
+                                                  "rock-racers-missing-keys",
+                                                  "package.json"
+                                                  ))
+        self.assertTrue(validator.isMissingKeys(packageJson))
 
 
 if __name__ == "__main__":
