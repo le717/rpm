@@ -32,6 +32,10 @@ def validateName(name):
     if name[0] == "_":
         return (False, "Sorry, name cannot start with an underscore.")
 
+    # Spaces check
+    if re.findall(r"\s", name):
+        return (False, "Sorry, name cannot contain spaces.")
+
     # Length check
     if len(name) > 214:
         return (False, "Sorry, name cannot contain more than 214 characters.")
