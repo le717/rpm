@@ -14,7 +14,7 @@ import os
 import logging
 import requests
 from zipfile import ZipFile
-from clint.textui import progress
+from clint.textui import progress, colored
 
 from . import packagelist
 from src.settings import user
@@ -86,9 +86,21 @@ def main(package):
             print("Package is missing package.json and cannot be installed")
             return False
 
-        # TODO Proper validation
-        # Extract package.json for validation
+        # Extract and validate package.json
         z.extract("package.json", appUtils.tempPath)
+        validateResult = validator.packageJson(
+            os.path.join(appUtils.tempPath, "package.json"))
+
+        # Validation errors occurred
+        if validateResult:
+            logging.warning("package.json validation errors occurred!")
+            print("\nThe following errors in package.json were found:")
+            for error in validateResult:
+                print(colored.red(error, bold=True))
+
+            logging.info("Installation aborted")
+            print("\nInstallation will now abort")
+            return False
 
         # Remove the JSON from the archive so it is not extracted
         packageFiles.remove("package.json")
