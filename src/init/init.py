@@ -39,6 +39,12 @@ Press ^C at any time to quit.
 
         while not validName:
             packageName = input("name: ({0}) ".format(defaultName))
+            # The default value will be used
+            if packageName == "":
+                packageName = defaultName
+
+            # We still need to validate both a user-supplied name
+            # and the default name
             result = validator.validateName(packageName)
 
             # Display error message if needed
@@ -50,7 +56,7 @@ Press ^C at any time to quit.
             validName = result[0]
 
         # Store the package name
-        packageDetails["name"] = (packageName if packageName else defaultName)
+        packageDetails["name"] = packageName
 
         # Get the package version
         logging.info("Collecting package version")
@@ -58,6 +64,9 @@ Press ^C at any time to quit.
 
         while not validVersion:
             packageVersion = input("version: (1.0.0) ")
+            # The default value will be used
+            if packageVersion == "":
+                break
             result = validator.validateVersion(packageVersion)
 
             # Display error message if needed
