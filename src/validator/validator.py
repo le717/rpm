@@ -13,6 +13,9 @@ Licensed under The MIT License
 import re
 import logging
 from clint.textui import colored
+from src.utils import jsonutils
+
+__all__ = ("validateName", "validateVersion", "hasPackageJson", "packageJson")
 
 
 def validateName(name):
@@ -112,3 +115,47 @@ def __isMissingKey(keys):
                       "Warning: {0} key missing".format(key), bold=True))
     return result
 
+
+def packageJson(path):
+    """Validate the package.json file.
+
+    Validation is defined as containing and filing the required
+    keys (name and version), as well as confirming the keys are well-formed.
+
+    A warning is issued for missing or empty optional keys
+    but no action is taken and validation result is not affected.
+
+    @param {String} path An absolute path to the package.json file.
+    @returns {Boolean} True if all validation tests pass, False otherwise,
+    """
+    # Read the JSON
+    packageJson = jsonutils.read(path)
+
+    # The JSON could not be parsed (most likely invalid)
+    if not packageJson:
+        logging.error("Unable to read package.json!")
+        print(colored.red("Unable to read package.json!", bold=True))
+        return False
+
+    # Required key(s) is/are missing
+    if __isMissingKey(tuple(packageJson.keys())):
+        return False
+
+    availableValidators = {
+        "name": validateName,
+        "version": validateVersion
+    }
+
+    # Validate each key
+    results = []
+    for k, v in packageJson.items():
+        # Ensure we have a validator for that key
+        if k in availableValidators:
+            r = availableValidators[k](v)
+
+            # A test failed, collect the error message
+            if not r[0]:
+                logging.warning("Validation for key {0} failed!".format(k))
+                results.append(r[1])
+
+    return (results if results else False)
