@@ -15,32 +15,30 @@ import logging
 
 from src.utils import utils, jsonutils
 
-__all__ = ("AppSettings")
+__all__ = ("load", "save")
+
+fileName = os.path.join(utils.AppUtils().configPath, "app.json")
 
 
-class AppSettings:
+def load():
+    """Load the app settings.
 
-    def __init__(self):
-        self.__file = os.path.join(utils.AppUtils().configPath, "app.json")
+    @returns See documentation for jsonutils::read.
+    """
+    logging.info("Loading app settings")
+    return jsonutils.read(fileName)
 
-    def load(self):
-        """Load the app settings.
 
-        @returns See documentation for jsonutils::read.
-        """
-        logging.info("Loading app settings")
-        return jsonutils.read(self.__file)
+def save(value):
+    """Write the app settings.
 
-    def save(self, value):
-        """Write the app settings.
+    @todo Do I really need this method?
 
-        @todo Do I really need this method?
+    @returns See documentation for jsonutils::write.
+    """
+    jsonData = {
+        "baseUrl": value
+    }
 
-        @returns See documentation for jsonutils::write.
-        """
-        jsonData = {
-            "baseUrl": value
-        }
-
-        logging.info("Writing app settings to {0}".format(self.__file))
-        return jsonutils.write(self.__file, jsonData)
+    logging.info("Writing app settings to {0}".format(fileName))
+    return jsonutils.write(fileName, jsonData)

@@ -13,11 +13,12 @@ Licensed under The MIT License
 import logging
 import requests
 
-from src.settings import app
+from src.settings import app as appSettings
 
 
 def main():
-    url = app.AppSettings().load()["baseUrl"]
+    # Get the root download URL
+    url = appSettings.load()["baseUrl"]
 
     # Fetch the request from the server
     r = requests.get("{0}/package-list.json".format(url))
