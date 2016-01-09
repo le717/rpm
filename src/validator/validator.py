@@ -22,9 +22,9 @@ def validateName(name):
                                         the name is invalid.
     """
     name = name.strip()
-    # Empty package name (default will be used)
+    # Empty name
     if name == "":
-        return (True,)
+        return (False, "Sorry, name cannot be empty.")
 
     # Leading dot/underscore check
     if name[0] == ".":
@@ -66,9 +66,9 @@ def validateVersion(version):
                                         If False index 1 will be error message.
     """
     version = version.strip()
-    # Empty package version (default will be used)
+    # Empty version
     if version == "":
-        return (True,)
+        return (False, "Sorry, version cannot be empty.")
 
     # Basic semver format
     matches = re.match(r"^(?:[0-9][.]){2}[0-9]$", version)
