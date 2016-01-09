@@ -10,6 +10,7 @@ Licensed under The MIT License
 """
 
 
+import os
 import sys
 
 from src.help import help
@@ -68,5 +69,5 @@ def main():
     raise SystemExit(0)
 
 
-if __name__ != "__main__":
+if os.path.basename(os.getcwd()) != "tests":
     main()
