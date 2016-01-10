@@ -2,58 +2,22 @@
 import os
 import sys
 import unittest
-from zipfile import ZipFile
 
 sys.path.insert(0, os.path.abspath(".."))
 
+import testhelpers
 from src.validator import validator
 from src.utils import jsonutils
 
 
 class TestValidatorMethods(unittest.TestCase):
-
-    TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "files")
-    TEST_FILES_TEMP_PATH = os.path.join(TEST_FILES_ROOT_PATH, "temp")
-
-    @classmethod
-    def delete_temp_files(self):
-        """Taken from Python docs.
-        https://docs.python.org/3/library/os.html#os.walk
-        """
-        for root, dirs, files in os.walk(self.TEST_FILES_TEMP_PATH,
-                                         topdown=False):
-            for name in files:
-                os.remove(os.path.join(root, name))
-            for name in dirs:
-                os.rmdir(os.path.join(root, name))
-
-    def list_archive_files(self, zip):
-        with ZipFile(zip, "r") as z:
-            return z.namelist()
-
-    def extract_archive(self, zip, path, file="all"):
-        packageFiles = self.list_archive_files(zip)
-        with ZipFile(zip, "r") as z:
-            if file == "all":
-                z.extractall(path, packageFiles)
-                return True
-            else:
-                if file not in packageFiles:
-                    return False
-                else:
-                    z.extract(file, path)
-                    return True
-
     @classmethod
     def setUpClass(cls):
-        if not os.path.isdir(cls.TEST_FILES_TEMP_PATH):
-            os.makedirs(cls.TEST_FILES_TEMP_PATH)
-        else:
-            cls.delete_temp_files()
+        testhelpers.setUpClass()
 
     @classmethod
     def tearDownClass(cls):
-        cls.delete_temp_files()
+        testhelpers.tearDownClass()
 
     def test_valid_name(self):
         r = validator.validateName("rock-racers")
@@ -160,45 +124,43 @@ class TestValidatorMethods(unittest.TestCase):
         self.assertIn("Invalid", r["message"])
 
     def test_package_contains_package_json(self):
-        packageZip = os.path.join(self.TEST_FILES_ROOT_PATH,
+        packageZip = os.path.join(testhelpers.TEST_FILES_ROOT_PATH,
                                   "rock-racers",
                                   "rock-racers-valid.zip")
 
-        packageFiles = self.list_archive_files(packageZip)
+        packageFiles = testhelpers.list_archive_files(packageZip)
         self.assertTrue(validator.hasPackageJson(packageFiles))
 
     def test_package_lacks_package_json(self):
-        packageZip = os.path.join(self.TEST_FILES_ROOT_PATH,
+        packageZip = os.path.join(testhelpers.TEST_FILES_ROOT_PATH,
                                   "rock-racers",
                                   "rock-racers-missing-json.zip")
 
-        packageFiles = self.list_archive_files(packageZip)
+        packageFiles = testhelpers.list_archive_files(packageZip)
         self.assertFalse(validator.hasPackageJson(packageFiles))
 
     def test_package_is_not_missing_keys(self):
-        self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
-                             "rock-racers", "rock-racers-valid.zip"),
-                             os.path.join(self.TEST_FILES_TEMP_PATH,
-                                          "rock-racers-valid"),
-                             "package.json")
+        testhelpers.extract_archive(os.path.join(
+            testhelpers.TEST_FILES_ROOT_PATH,
+            "rock-racers", "rock-racers-valid.zip"),
+            os.path.join(testhelpers.TEST_FILES_TEMP_PATH,
+                         "rock-racers-valid"), "package.json")
 
-        packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
-                                                  "rock-racers-valid",
-                                                  "package.json"
-                                                  ))
+        packageJson = jsonutils.read(os.path.join(
+            testhelpers.TEST_FILES_TEMP_PATH,
+            "rock-racers-valid", "package.json"))
         self.assertFalse(validator.isMissingKeys(packageJson))
 
     def test_package_is_missing_keys(self):
-        self.extract_archive(os.path.join(self.TEST_FILES_ROOT_PATH,
-                             "rock-racers", "rock-racers-missing-keys.zip"),
-                             os.path.join(self.TEST_FILES_TEMP_PATH,
-                                          "rock-racers-missing-keys"),
-                             "package.json")
+        testhelpers.extract_archive(os.path.join(
+            testhelpers.TEST_FILES_ROOT_PATH,
+            "rock-racers", "rock-racers-missing-keys.zip"),
+            os.path.join(testhelpers.TEST_FILES_TEMP_PATH,
+                         "rock-racers-missing-keys"), "package.json")
 
-        packageJson = jsonutils.read(os.path.join(self.TEST_FILES_TEMP_PATH,
-                                                  "rock-racers-missing-keys",
-                                                  "package.json"
-                                                  ))
+        packageJson = jsonutils.read(os.path.join(
+            testhelpers.TEST_FILES_TEMP_PATH,
+            "rock-racers-missing-keys",  "package.json"))
         result = validator.isMissingKeys(packageJson)
         expected = [
             {
