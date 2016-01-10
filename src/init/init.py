@@ -48,8 +48,8 @@ def __getPackageName():
         r = validator.validateName(packageName)
 
         # Display error message if needed
-        if r["result"]:
-            validName = r["result"]
+        if r["result"] is None:
+            validName = True
         else:
             __displayError(r["value"], r["message"])
     return packageName
@@ -70,8 +70,8 @@ def __getPackageVersion():
         r = validator.validateVersion(packageVersion)
 
         # Display error message if needed
-        if r["result"]:
-            validVersion = r["result"]
+        if r["result"] is None:
+            validVersion = True
         else:
             __displayError(r["value"], r["message"])
     return (packageVersion if packageVersion else "1.0.0")
