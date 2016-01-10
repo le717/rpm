@@ -21,6 +21,18 @@ from src.settings import user as userSettings
 from src.utils import legojam, utils
 from src.validator import validator
 
+__all__ = ("main")
+
+
+def abortInstall():
+    """@todo.
+
+    @returns {Boolean} Always returns False.
+    """
+    logging.info("Installation aborted")
+    print("Installation will now abort")
+    return False
+
 
 def main(package):
     # No value was given, silently no-op
@@ -95,12 +107,23 @@ def main(package):
         if validateResult:
             logging.warning("package.json validation errors occurred!")
             print("\nThe following errors in package.json were found:")
-            for error in validateResult:
-                print(colored.red(error, bold=True))
 
-            logging.info("Installation aborted")
-            print("\nInstallation will now abort")
-            return False
+            shouldAbort = False
+            for error in validateResult:
+                # Issue a warning
+                if error["result"] == "warning":
+                    print(colored.yellow("Warning: {0}".format(
+                          error["message"]), bold=True))
+
+                # Issue an error
+                elif error["result"] == "error":
+                    shouldAbort = True
+                    print(colored.red("Error: {0}".format(
+                          error["message"]), bold=True))
+
+            # A fatal error occurred, we cannot continue on
+            if shouldAbort:
+                return abortInstall()
 
         # Remove the JSON from the archive so it is not extracted
         packageFiles.remove("package.json")
