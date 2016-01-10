@@ -47,32 +47,31 @@ def validateName(name):
     name = name.strip()
     # Empty name
     if name == "":
-        return __makeErrorDict(name, False, "The name cannot be empty.")
+        return __makeErrorDict(name, "error", "name cannot be empty.")
 
     # Leading dot/underscore check
     if name[0] == ".":
-        return __makeErrorDict(name, False,
-                               "The name cannot start with a period.")
+        return __makeErrorDict(name, "error",
+                               "name cannot start with a period.")
     if name[0] == "_":
-        return __makeErrorDict(name, False,
-                               "The name cannot start with an underscore.")
+        return __makeErrorDict(name, "error",
+                               "name cannot start with an underscore.")
 
     # Spaces check
     if re.findall(r"\s", name):
-        return __makeErrorDict(name, False,
-                               "The name cannot contain spaces.")
+        return __makeErrorDict(name, "error", "name cannot contain spaces.")
 
     # Length check
     if len(name) > PACKAGE_NAME_MAX_LENGTH:
-        return __makeErrorDict(name, False,
-                               "The name cannot contain more than"
+        return __makeErrorDict(name, "error",
+                               "name cannot contain more than"
                                " {0} characters.".format(
                                    PACKAGE_NAME_MAX_LENGTH))
 
     # Uppercase letter check
     if re.findall(r"[A-Z]", name):
-        return __makeErrorDict(name, False,
-                               "The name cannot contain capital letters.")
+        return __makeErrorDict(name, "error",
+                               "name cannot contain capital letters.")
 
     badChars = ("\\", "/", ":", "*", "?", '"', "<", ">", "|")
     badNames = ("aux", "com1", "com2", "com3", "com4", "con",
@@ -80,14 +79,14 @@ def validateName(name):
 
     # Invalid Windows names/charcters check
     if name in badNames:
-        return __makeErrorDict(name, False,
-                               'Name "{0}" is not allowed.'.format(name))
+        return __makeErrorDict(name, "error",
+                               'name "{0}" is not allowed.'.format(name))
     for char in name:
         if char in badChars:
-            return __makeErrorDict(name, False,
-                                   'The character "{0}" is not allowed.'
+            return __makeErrorDict(name, "error",
+                                   'character "{0}" is not allowed.'
                                    .format(char))
-    return __makeErrorDict(name, True, None)
+    return __makeErrorDict(name, None, None)
 
 
 def validateVersion(version):
@@ -99,14 +98,14 @@ def validateVersion(version):
     version = version.strip()
     # Empty version
     if version == "":
-        return __makeErrorDict(version, False, "The version cannot be empty.")
+        return __makeErrorDict(version, "error", "version cannot be empty.")
 
     # Basic semver format
     matches = re.match(r"^(?:\d+[.]){2}\d+$", version)
     if not matches:
-        return __makeErrorDict(version, False,
+        return __makeErrorDict(version, "error",
                                'Invalid version: "{0}"'.format(version))
-    return __makeErrorDict(version, True, None)
+    return __makeErrorDict(version, None, None)
 
 
 def hasPackageJson(files):
@@ -119,28 +118,24 @@ def hasPackageJson(files):
 
 
 def isMissingKeys(keys):
-    result = False
+    results = []
     allKeys = ("name", "version", "author", "description", "homepage")
 
     # Check for key existance
     for key in allKeys:
-        # There is a missing key in the JSON
         if key not in keys:
-            # One of the required keys is missing, abort
-            if key in ("name", "version"):
-                logging.error("Fatal: missing package.json key: {0}".format(
-                              key))
-                print(colored.red(
-                      'Fatal error: "{0}" key missing'.format(key), bold=True))
-                result = True
-                break
+            msg = 'missing key "{0}"'.format(key)
 
-            # An optional key is missing, issue a warning
+            # A required key is missing
+            if key in ("name", "version"):
+                results.append(__makeErrorDict(key, "error", msg))
+                logging.error(msg)
+
+            # An optional key is missing
             else:
-                logging.warning("Missing package.json key: {0}".format(key))
-                print(colored.yellow(
-                      'Warning: "{0}" key missing'.format(key), bold=True))
-    return result
+                results.append(__makeErrorDict(key, "warning", msg))
+                logging.warning(msg)
+    return (results if results else False)
 
 
 def packageJson(path):
@@ -156,17 +151,22 @@ def packageJson(path):
     @returns {Boolean} True if all validation tests pass, False otherwise,
     """
     # Read the JSON
+    results = []
+    logging.info("Validating package.json")
     packageJson = jsonutils.read(path)
 
     # The JSON could not be parsed (most likely invalid)
+    # TODO Move this check to hasPackageJson()
     if not packageJson:
         logging.error("Unable to read package.json!")
-        print(colored.red("Unable to read package.json!", bold=True))
-        return False
+        results.append(__makeErrorDict(None, "warning",
+                       "Unable to read package.json!"))
+        return results
 
     # Required key(s) is/are missing
-    if isMissingKeys(tuple(packageJson.keys())):
-        return False
+    missing = isMissingKeys(tuple(packageJson.keys()))
+    if missing:
+        results = [_ for _ in missing]
 
     availableValidators = {
         "name": validateName,
@@ -174,15 +174,14 @@ def packageJson(path):
     }
 
     # Validate each key
-    results = []
     for k, v in packageJson.items():
         # Ensure we have a validator for that key
         if k in availableValidators:
-            r = availableValidators[k](v)
+            valid = availableValidators[k](v)
 
-            # A test failed, collect the error message
-            if not r["result"]:
+            # A test failed
+            if valid["result"]:
                 logging.warning("Validation for key {0} failed!".format(k))
-                results.append(r["message"])
+                results.append(valid)
 
     return (results if results else False)
