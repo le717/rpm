@@ -156,7 +156,6 @@ def packageJson(path):
     packageJson = jsonutils.read(path)
 
     # The JSON could not be parsed (most likely invalid)
-    # TODO Move this check to hasPackageJson()
     if not packageJson:
         logging.error("Unable to read package.json!")
         results.append(__makeErrorDict(None, "warning",

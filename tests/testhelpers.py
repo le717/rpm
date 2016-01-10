@@ -39,7 +39,6 @@ def extract_archive(zip, path, file="all"):
 
 
 def setUpClass():
-    # logger = logging.getLogger("root")
     logging.disable(logging.ERROR)
     if not os.path.isdir(TEST_FILES_TEMP_PATH):
         os.makedirs(TEST_FILES_TEMP_PATH)
