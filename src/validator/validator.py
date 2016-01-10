@@ -12,7 +12,6 @@ Licensed under The MIT License
 
 import re
 import logging
-from clint.textui import colored
 from src.utils import jsonutils
 
 __all__ = ("PACKAGE_NAME_MAX_LENGTH", "validateName", "validateVersion",
