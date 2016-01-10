@@ -18,7 +18,7 @@ def main(command=None):
         message = """Usage: {0} <command>
 
 where command is one of:
-    help, install, settings
+    help, init, install, settings
 
 {0} help <command>    search for help on <command>""".format(const.APP_NAME)
         print(message)
