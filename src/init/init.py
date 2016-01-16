@@ -15,7 +15,7 @@ import logging
 from src.utils import jsonutils
 from src.validator import validator
 
-__all__ = ("main")
+__all__ = ("main", "createPackageFols")
 
 
 def __displayError(value, message):
@@ -77,6 +77,21 @@ def __getPackageVersion():
     return (packageVersion if packageVersion else "1.0.0")
 
 
+def createPackageFols(path):
+    """Create the package folder structure.
+
+    @param {String} path An absolute path to the package location.
+    @returns {Boolean} Always returns True.
+    """
+    logging.info("Creating folders")
+    folders = (os.path.join(path, "MENUDATA"),
+               os.path.join(path, "GAMEDATA"))
+    for fol in folders:
+        if not os.path.isdir(fol):
+            os.makedirs(fol)
+    return True
+
+
 def main(*args):
     print("""This utility will walk you through creating a package.json file.
 It only covers the most common items, and tries to guess sensible defaults.
@@ -111,12 +126,7 @@ Press ^C at any time to quit.
         jsonutils.write(packageJson, packageDetails, 4)
 
         # Create the required folder structure
-        logging.info("Creating folders")
-        folders = (os.path.join(os.getcwd(), "MENUDATA"),
-                   os.path.join(os.getcwd(), "GAMEDATA"))
-        for fol in folders:
-            if not os.path.isdir(fol):
-                os.makedirs(fol)
+        createPackageFols(os.getcwd())
 
         print("\nBoilerplate for package {0} sucessfully created.".format(
               packageDetails["name"]))
