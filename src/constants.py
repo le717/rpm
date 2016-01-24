@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""pire - LEGO Racers mods package manager.
+"""rpm - LEGO Racers mods package manager.
 
-Created 2015 Caleb Ely
+Created 2015-2016 Caleb Ely
 <http://codetriangle.me/>
 
 Licensed under The MIT License
@@ -10,6 +10,6 @@ Licensed under The MIT License
 """
 
 
-APP_NAME = "pire"
+APP_NAME = "rpm"
 VERSION = "0.1.0"
 CREATOR = "Caleb Ely"

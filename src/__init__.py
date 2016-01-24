@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 """pire - LEGO Racers mods package manager.
 
-Created 2015 Caleb Ely
+Created 2015-2016 Caleb Ely
 <http://codetriangle.me/>
 
 Licensed under The MIT License
