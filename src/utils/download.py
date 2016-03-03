@@ -15,21 +15,7 @@ import logging
 import requests
 from clint.textui import progress
 
-__all__ = ("toDisk")
-
-
-def toMemory(url):
-    """Download a file but do not write it to disk.
-
-    @param {String} url The URL to the file.
-    return {Boolean|Requests} A requests object if the file was downloaded,
-                              False otherwise.
-    """
-    r = requests.get(url)
-    if r.status_code == requests.codes.ok:
-        logging.info("{0} sucessfully downloaded".format(url))
-        return r
-    return False
+__all__ = ("toDisk", "toMemory")
 
 
 def toDisk(name, url, dest):
@@ -62,3 +48,17 @@ def toDisk(name, url, dest):
 
     # Confirm the file was downloaded
     return os.path.isfile(dest)
+
+
+def toMemory(url):
+    """Download a file but do not write it to disk.
+
+    @param {String} url The URL to the file.
+    return {Boolean|Requests} A requests object if the file was downloaded,
+                              False otherwise.
+    """
+    r = requests.get(url)
+    if r.status_code == requests.codes.ok:
+        logging.info("{0} sucessfully downloaded".format(url))
+        return r
+    return False

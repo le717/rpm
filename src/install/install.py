@@ -12,13 +12,12 @@ Licensed under The MIT License
 
 import os
 import logging
-import requests
 from zipfile import ZipFile
-from clint.textui import progress, colored
+from clint.textui import colored
 
 from . import packagelist
 from src.settings import user as userSettings
-from src.utils import legojam, utils
+from src.utils import download, legojam, utils
 from src.validator import validator
 
 __all__ = ("main")
@@ -46,7 +45,8 @@ def main(package):
     # We do not have any settings
     if settings is None or not os.path.isdir(settings["gameLocation"]):
         logging.warning("User has not yet configured settings")
-        print("You need to configure your settings before installing!")
+        print(colored.red(
+              "You need to configure your settings before installing!"))
         return False
 
     # Fetch the package list
@@ -67,20 +67,15 @@ def main(package):
     print("Package {0} is available for installation".format(package))
 
     # Download the package
-    print("Downloading package {0}".format(package))
-    r = requests.get(availablePackages["packages"][package]["url"],
-                     stream=True)
-
-    # Write the package to disk
-    # Sourced from http://stackoverflow.com/a/20943461
     destZip = os.path.join(appUtils.cachePath, "{0}.zip".format(package))
-    with open(destZip, "wb") as f:
-        total_length = int(r.headers.get("content-length"))
-        for chunk in progress.bar(r.iter_content(chunk_size=1024),
-                                  expected_size=(total_length / 1024) + 1):
-            if chunk:
-                f.write(chunk)
-                f.flush()
+    r = download.toDisk(package,
+                        availablePackages["packages"][package]["url"],
+                        destZip)
+
+    # Ensure the file was downloaded
+    if not r:
+        print(colored.red("Unable to download package {0}!".format(package)))
+        return False
 
     # Extract the JAM
     jamResult, extractPath = legojam.main("extract")
