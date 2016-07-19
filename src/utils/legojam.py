@@ -67,7 +67,7 @@ def __findExtractedJam(path):
     return results
 
 
-def main(action):
+def __main(action):
     # Get the user settings
     settings = userSettings.load()
 
@@ -134,8 +134,8 @@ def main(action):
 
 
 def build():
-    return main("build")
+    return __main("build")
 
 
 def extract():
-    return main("extract")
+    return __main("extract")
