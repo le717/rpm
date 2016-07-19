@@ -13,9 +13,12 @@ Licensed under The MIT License
 import os
 import shutil
 import logging
+from clint.textui import colored
 
 from src.settings import user as userSettings
 from src.lib import JAMExtractor
+
+__all__ = ("build", "extract")
 
 
 def __extractJAM(path):
@@ -56,12 +59,8 @@ def __findExtractedJam(path):
     for pathGroup in extractedPaths:
         if os.path.isdir(pathGroup[0]) and os.path.isdir(pathGroup[1]):
             # Get the exact path detected
-            extractedPath = None
-            if extractedPaths.index(pathGroup) == 0:
-                extractedPath = path
-            else:
-                extractedPath = os.path.join(path, "LEGO")
-
+            extractedPath = (path if extractedPaths.index(pathGroup) == 0
+                             else os.path.join(path, "LEGO"))
             results = (True, extractedPath)
             break
 
@@ -75,7 +74,8 @@ def main(action):
     # We do not have any settings
     if settings is None:
         logging.warning("User has not yet configured settings")
-        print("You need to configure your settings before installing!")
+        print(colored.red(
+              "You need to configure your settings before installing!"))
         return False
 
     # This game release requires a JAM archive
@@ -131,3 +131,11 @@ def main(action):
                 logging.info("Deleting extracted files")
                 shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
             return r
+
+
+def build():
+    return main("build")
+
+
+def extract():
+    return main("extract")

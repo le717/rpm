@@ -78,7 +78,7 @@ def main(package):
         return False
 
     # Extract the JAM
-    jamResult, extractPath = legojam.main("extract")
+    jamResult, extractPath = legojam.extract()
     if not jamResult:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
@@ -129,7 +129,7 @@ def main(package):
         z.extractall(extractPath, packageFiles)
 
     # Compress the JAM
-    jamResult = legojam.main("build")
+    jamResult = legojam.build()
     if not jamResult:
         logging.warning("There was an error building LEGO.JAM!")
         return False
