@@ -13,12 +13,14 @@ Licensed under The MIT License
 import os
 import shutil
 import logging
+import distutils.dir_util
 from clint.textui import colored
 
-from src.settings import user as userSettings
 from src.lib import JAMExtractor
+from src.settings import user as userSettings
+from src.utils import utils
 
-__all__ = ("build", "extract")
+__all__ = ("build", "configure2001Release", "extract")
 
 
 def __extractJAM(path):
@@ -69,6 +71,37 @@ def __findExtractedJam(path):
     return results
 
 
+def configure2001Release(path):
+    """
+    Configure a 2001 game release to run without a JAM archive,
+    as explained on the following website:
+    http://www.rockraidersunited.com/topic/7178-the-2001-version-loads-gamedata-menudata-folders-if-an-emtpy-valid-legojam-file-is-present/
+    """
+    # If the JAM has already been extracted, we have nothing to do here
+    logging.info("Check if we even need to configure the game")
+    if __findExtractedJam(path)[0]:
+        return True
+
+    # Extract the JAM
+    jamResult = __extractJAM(path)
+    if not jamResult:
+        logging.warning("There was an error extracting LEGO.JAM!")
+        return False
+
+    # Copy the extracted files to their proper location
+    print("\nPerforming configuration...")
+    logging.info("Copy the extracted files to their proper location")
+    distutils.dir_util.copy_tree(os.path.join(path, "LEGO"), path)
+    distutils.dir_util.remove_tree(os.path.join(path, "LEGO"))
+
+    # Rename the existing JAM archive and grab our dummy archive
+    logging.info("Backup the existing JAM and add our dummy file in its place")
+    os.rename(os.path.join(path, "LEGO.JAM"),
+              os.path.join(path, "PRE-RPM-LEGO.JAM"))
+    shutil.copy2(os.path.join(utils.AppUtils().configPath, "LEGO.JAM"),
+                 os.path.join(path, "LEGO.JAM"))
+    return True
+
 def __main(action):
     # Get the user settings
     settings = userSettings.load()
@@ -81,7 +114,7 @@ def __main(action):
         return False
 
     # This game release requires a JAM archive
-    needsJam = (True if settings["gameRelease"] in (None, "1999") else False)
+    needsJam = (True if settings["gameRelease"] is None else False)
 
     # Find possible pre-extracted files
     preExtracted = __findExtractedJam(settings["gameLocation"])

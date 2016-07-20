@@ -12,7 +12,10 @@ Licensed under The MIT License
 
 import os
 import logging
+from clint.textui import colored
 
+import src.constants as const
+from src.utils import legojam
 from . import user as userSettings
 
 
@@ -96,8 +99,23 @@ def main(*args):
     appOpts["gameLocation"] = os.path.abspath(gamePath.replace("\\", "/"))
     appOpts["gameRelease"] = __getVersion(gamePath)
 
+    # It has been discovered the 2001 release can run JAM-less
+    # Therefore, configure it to do just that
+    # http://www.rockraidersunited.com/topic/7178-the-2001-version-loads-gamedata-menudata-folders-if-an-emtpy-valid-legojam-file-is-present/  # noqa
+    if appOpts["gameRelease"] == "2001":
+        logging.info("Configuring 2001 release to run without a JAM")
+        print("Performing one-time configuration. This should only take a few minutes\n")
+        r = legojam.configure2001Release(appOpts["gameLocation"])
+
+        # Game could not be configured, abort
+        if not r:
+            logging.warning("Unable to configure 2001 release!")
+            print(colored.red("""Unable to configure {0} settings!
+Please try again later""".format(const.APP_NAME)))
+            return False
+
     # Save the settings
     userSettings.save(appOpts)
-    print("Settings were successfully saved")
     logging.info("User settings successfully saved")
+    print("Settings were successfully saved")
     return True
