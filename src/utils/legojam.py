@@ -102,6 +102,7 @@ def configure2001Release(path):
                  os.path.join(path, "LEGO.JAM"))
     return True
 
+
 def __main(action):
     # Get the user settings
     settings = userSettings.load()
