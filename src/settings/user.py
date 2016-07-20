@@ -29,7 +29,7 @@ def load():
     return jsonutils.read(fileName)
 
 
-def save(self, data):
+def save(data):
     """Write the user settings.
 
     @param {*} data The JSON-parsable data to be written.
