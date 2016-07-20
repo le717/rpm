@@ -24,7 +24,7 @@ __all__ = ("main")
 
 
 def abortInstall():
-    """@todo.
+    """Abort a package installation.
 
     @returns {Boolean} Always returns False.
     """
@@ -90,7 +90,8 @@ def main(package):
         # The required package.json file is missing
         if not validator.hasPackageJson(packageFiles):
             logging.warning("package.json not found!")
-            print("Package is missing package.json and cannot be installed")
+            print(colored.red(
+                  "Package is missing package.json and cannot be installed"))
             return False
 
         # Extract and validate package.json

@@ -57,7 +57,7 @@ def toMemory(url):
     return {Boolean|Requests} A requests object if the file was downloaded,
                               False otherwise.
     """
-    r = requests.get(url)
+    r = requests.get(url, stream=True)
     if r.status_code == requests.codes.ok:
         logging.info("{0} sucessfully downloaded".format(url))
         return r

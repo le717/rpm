@@ -25,7 +25,7 @@ def load():
 
     @returns See signature for jsonutils::read.
     """
-    logging.info("Loading app settings")
+    logging.info("Loading user settings")
     return jsonutils.read(fileName)
 
 
