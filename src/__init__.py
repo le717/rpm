@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
-"""pire - LEGO Racers mods package manager.
+"""rpm - LEGO Racers mods package manager.
 
 Created 2015-2016 Caleb Ely
-<http://codetriangle.me/>
+<https://CodeTri.net/>
 
 Licensed under The MIT License
 <http://opensource.org/licenses/MIT/>
