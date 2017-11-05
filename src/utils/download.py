@@ -24,7 +24,7 @@ def toDisk(name, url, dest):
     @param {String} name The pretty name of the desired file.
     @param {String} url The URL to the file.
     @param {String} dest The destination path and file name for the file.
-    @returns {Boolean} True if file was successfully downloaded,
+    @return {Boolean} True if file was successfully downloaded,
                        False otherwise.
     """
     # Download the package

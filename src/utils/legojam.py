@@ -27,7 +27,7 @@ def __extractJAM(path):
     """Helper function to extract the JAM archive.
 
     @param {String} path An absolute path to game installation.
-    @returns {Boolean} True if extraction was successful, False otherwise.
+    @return {Boolean} True if extraction was successful, False otherwise.
     """
     logging.info("Extracting LEGO.JAM")
     return JAMExtractor.extract(os.path.join(path, "LEGO.JAM"), False)
@@ -37,7 +37,7 @@ def __buildJAM(path):
     """Helper function to build the JAM archive.
 
     @param {String} path An absolute path to game installation.
-    @returns {Boolean} True if build was successful, False otherwise.
+    @return {Boolean} True if build was successful, False otherwise.
     """
     logging.info("Building LEGO.JAM")
     return JAMExtractor.build(os.path.join(path, "LEGO"), False)
@@ -47,7 +47,7 @@ def __findExtractedJam(path):
     """Find a possible pre-extracted JAM archive.
 
     @param {String} path An absolute path to game installation.
-    @returns {Tuple.<boolean, ?string>} Index 0 will be False if no path
+    @return {Tuple.<boolean, ?string>} Index 0 will be False if no path
                                         was found. If True, index 1 will be
                                         the the path to the extracted files.
     """

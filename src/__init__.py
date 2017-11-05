@@ -22,7 +22,7 @@ from src.utils import logger
 def getArguments():
     """Get the app arguments.
 
-    @returns {Dicionary.<command:string, value:string>}.
+    @return {Dicionary.<command:string, value:string>}.
     """
     argu = sys.argv
     result = {

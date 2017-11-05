@@ -19,7 +19,7 @@ def read(path):
     """Read and parse a JSON file from disk.
 
     @param {String} path An absolute path to the JSON file to be read.
-    @returns {*|NoneType} The parsed JSON data,
+    @return {*|NoneType} The parsed JSON data,
                         None if file could not be loaded or parsed.
     """
     # Python 3.5+ uses a new exception for JSON errors
@@ -53,7 +53,7 @@ def write(path, data, indent=None):
     @param {String} path An absolute path to the JSON file to be written.
     @param {*} data The JSON-parsable data to be written.
     @param {Integer} [indent=None] Indentation level of resulting file.
-    @returns {Boolean} True if successfully written, False otherwise.
+    @return {Boolean} True if successfully written, False otherwise.
     """
     try:
         with open(path, "wt", encoding="utf-8") as f:

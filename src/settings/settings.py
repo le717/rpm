@@ -23,7 +23,7 @@ def __getVersion(gamePath):
     """Detect game release year.
 
     @param {String} gamePath An absolute path to the game installation.
-    @returns {String|NoneType} The release year or None if unavailable.
+    @return {String|NoneType} The release year or None if unavailable.
     """
     version = None
     # Open the exe and read a small part of it
@@ -53,7 +53,7 @@ def __confirmGame(gamePath):
     """Confirm a game installation at the given path.
 
     @param {String} gamePath An absolute path to the game installation.
-    @returns {Boolean} True if a game installation was confirmed,
+    @return {Boolean} True if a game installation was confirmed,
                        False otherwise.
     """
     gamePath = os.path.abspath(gamePath)
@@ -101,7 +101,6 @@ def main(*args):
 
     # It has been discovered the 2001 release can run JAM-less
     # Therefore, configure it to do just that
-    # http://www.rockraidersunited.com/topic/7178-the-2001-version-loads-gamedata-menudata-folders-if-an-emtpy-valid-legojam-file-is-present/  # noqa
     if appOpts["gameRelease"] == "2001":
         logging.info("Configuring 2001 release to run without a JAM")
         print("Performing one-time configuration. This should only take a few minutes\n")

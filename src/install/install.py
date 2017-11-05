@@ -26,7 +26,7 @@ __all__ = ("main")
 def abortInstall():
     """Abort a package installation.
 
-    @returns {Boolean} Always returns False.
+    @return {Boolean} Always returns False.
     """
     logging.info("Installation aborted")
     print("Installation will now abort")

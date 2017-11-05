@@ -41,11 +41,11 @@ class AppUtils:
     def __getConfigPath(self):
         """Get the file path where configuration files will be stored.
 
-        On Windows, the root folder is %AppData%, while on Mac OS X and Linux
+        On Windows, the root folder is %AppData%, while on macOS and Linux
         it is ~. On all platforms, the rest of the path is
         Triangle717/APP_NAME.
 
-        @returns {String} The configuration path.
+        @return {String} The configuration path.
         """
         root = os.path.expanduser("~")
         if self.isWindows:
@@ -62,7 +62,7 @@ class AppUtils:
         """Create the given folder and all preceeding folders.
 
         @param {String} path An absolute path for the desired folder.
-        @returns {String} The folder path given in the path parameter.
+        @return {String} The folder path given in the path parameter.
         """
         if not os.path.exists(path):
             os.makedirs(path)

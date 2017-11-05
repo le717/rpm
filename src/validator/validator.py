@@ -27,7 +27,7 @@ def __makeErrorDict(value, result, message):
     @param {*} value The value in question that caused the error.
     @param {*} result The error status.
     @param {*} message The error message.
-    @returns {Dictionary.<value, result, message>} An error dictionary.
+    @return {Dictionary.<value, result, message>} An error dictionary.
                                                    Keys are same as params.
     """
     return {
@@ -41,7 +41,7 @@ def validateName(name):
     """Validate the package name.
 
     @param {String} name The package name.
-    @returns {Dictionary} See signature for private __makeErrorDict method.
+    @return {Dictionary} See signature for private __makeErrorDict method.
     """
     name = name.strip()
     # Empty name
@@ -92,7 +92,7 @@ def validateVersion(version):
     """Validate the package version.
 
     @param {String} version The package version.
-    @returns {Dictionary} See signature for private __makeErrorDict method.
+    @return {Dictionary} See signature for private __makeErrorDict method.
     """
     version = version.strip()
     # Empty version
@@ -111,7 +111,7 @@ def hasPackageJson(files):
     """Check if package.json is present in the package archive.
 
     @param {Tuple|List} files Files in the archive.
-    @returns {Boolean} True if package.json in list, False otherwise.
+    @return {Boolean} True if package.json in list, False otherwise.
     """
     return "package.json" in files
 
@@ -147,7 +147,7 @@ def packageJson(path):
     but no action is taken and validation result is not affected.
 
     @param {String} path An absolute path to the package.json file.
-    @returns {Boolean} True if all validation tests pass, False otherwise,
+    @return {Boolean} True if all validation tests pass, False otherwise,
     """
     # Read the JSON
     results = []

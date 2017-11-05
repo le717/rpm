@@ -32,7 +32,7 @@ def __displayError(value, message):
 def __getPackageName():
     """Get the package name.
 
-    @returns {String}
+    @return {String}
     """
     defaultName = os.path.basename(os.getcwd())
     validName = False
@@ -58,7 +58,7 @@ def __getPackageName():
 def __getPackageVersion():
     """Get the package version.
 
-    @returns {String}
+    @return {String}
     """
     validVersion = False
 
@@ -81,7 +81,7 @@ def createPackageFols(path):
     """Create the package folder structure.
 
     @param {String} path An absolute path to the package location.
-    @returns {Boolean} Always returns True.
+    @return {Boolean} Always returns True.
     """
     logging.info("Creating folders")
     folders = (os.path.join(path, "MENUDATA"),
