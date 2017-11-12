@@ -108,20 +108,20 @@ def __main(action):
     settings = userSettings.load()
 
     # We do not have any settings
-    if settings is None:
+    if settings.get_all() is None:
         logging.warning("User has not yet configured settings")
         print(colored.red(
               "You need to configure your settings before installing!"))
         return False
 
     # This game release requires a JAM archive
-    needsJam = (True if settings["gameRelease"] is None else False)
+    needsJam = (True if settings.get("gameRelease") is None else False)
 
     # Find possible pre-extracted files
-    preExtracted = __findExtractedJam(settings["gameLocation"])
+    preExtracted = __findExtractedJam(settings.get("gameLocation"))
 
     # File used to note if we extracted a JAM archive
-    extractionIndicator = os.path.join(settings["gameLocation"], "extracted")
+    extractionIndicator = os.path.join(settings.get("gameLocation"), "extracted")
 
     # JAM extraction has been requested
     if action == "extract":
@@ -138,8 +138,8 @@ def __main(action):
             f.close()
 
             # Extract the JAM
-            return (__extractJAM(settings["gameLocation"]),
-                    os.path.join(settings["gameLocation"], "LEGO"))
+            return (__extractJAM(settings.get("gameLocation")),
+                    os.path.join(settings.get("gameLocation"), "LEGO"))
 
     # JAM building has been requested
     elif action == "build":
@@ -156,7 +156,7 @@ def __main(action):
 
         # We need a built JAM archive
         else:
-            r = __buildJAM(settings["gameLocation"])
+            r = __buildJAM(settings.get("gameLocation"))
 
             # Delete the extracted files only if we created them
             if os.path.isfile(extractionIndicator):
@@ -164,7 +164,7 @@ def __main(action):
                 os.remove(extractionIndicator)
 
                 logging.info("Deleting extracted files")
-                shutil.rmtree(os.path.join(settings["gameLocation"], "LEGO"))
+                shutil.rmtree(os.path.join(settings.get("gameLocation"), "LEGO"))
             return r
 
 

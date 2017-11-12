@@ -26,7 +26,7 @@ def load():
     @return See signature for jsonutils::read.
     """
     logging.info("Loading user settings")
-    return jsonutils.read(fileName)
+    return utils.Settings(jsonutils.read(fileName))
 
 
 def save(data):

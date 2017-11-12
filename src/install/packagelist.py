@@ -18,7 +18,7 @@ from src.settings import app as appSettings
 
 def main():
     # Get the root download URL
-    url = appSettings.load()["baseUrl"]
+    url = appSettings.load().get("baseUrl")
 
     # Fetch the request from the server
     r = requests.get("{0}/package-list.json".format(url))

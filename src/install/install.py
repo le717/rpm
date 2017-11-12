@@ -43,7 +43,7 @@ def main(package):
     appUtils = utils.AppUtils()
 
     # We do not have any settings
-    if settings is None or not os.path.isdir(settings["gameLocation"]):
+    if not os.path.isdir(settings.get("gameLocation")):
         logging.warning("User has not yet configured settings")
         print(colored.red(
               "You need to configure your settings before installing!"))
