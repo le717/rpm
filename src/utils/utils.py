@@ -15,7 +15,40 @@ import platform
 
 from src import constants as const
 
-__all__ = ("AppUtils")
+__all__ = ("AppUtils", "Settings")
+
+
+class Settings:
+
+    """Generic settings class.
+
+    This is used as a thin wrapper around user and app settings
+    to more gracefully handle errors.
+    """
+
+    def __init__(self, settings):
+        """Initialize class properties.
+
+        @param {Dictionary} The settings dictionary to use.
+        """
+        self.__settings = settings
+
+    def get(self, key):
+        """Get a specific setting's value.
+
+        @param {String} key The value for the given setting key.
+        @return {*|NoneType}
+        """
+        if self.__settings is None:
+            return None
+        self.__settings.get(key, None)
+
+    def get_all(self):
+        """Get the entire settings dictionary.
+
+        @return {Dictionary}
+        """
+        return self.__settings
 
 
 class AppUtils:

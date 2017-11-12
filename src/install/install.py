@@ -23,7 +23,7 @@ from src.validator import validator
 __all__ = ("main")
 
 
-def abortInstall():
+def abort_install():
     """Abort a package installation.
 
     @return {Boolean} Always returns False.
@@ -119,7 +119,7 @@ def main(package):
 
             # A fatal error occurred, we cannot continue on
             if shouldAbort:
-                return abortInstall()
+                return abort_install()
 
         # Remove the JSON from the archive so it is not extracted
         packageFiles.remove("package.json")
