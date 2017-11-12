@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2016 Caleb Ely
+Created 2015-2017 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -64,7 +64,7 @@ def main(package):
 
     # The package was found
     logging.info("Package {0} is available".format(package))
-    print("Package {0} is available for installation".format(package))
+    print("Package {0} is available for installation.".format(package))
 
     # Download the package
     destZip = os.path.join(appUtils.cachePath, "{0}.zip".format(package))
@@ -91,7 +91,7 @@ def main(package):
         if not validator.hasPackageJson(packageFiles):
             logging.warning("package.json not found!")
             print(colored.red(
-                  "Package is missing package.json and cannot be installed"))
+                  "Package is missing package.json and cannot be installed!"))
             return False
 
         # Extract and validate package.json
@@ -126,7 +126,7 @@ def main(package):
 
         # Install the package
         logging.info("Extracting package to {0}".format(extractPath))
-        print("Installing package")
+        print("Installing package...")
         z.extractall(extractPath, packageFiles)
 
     # Compress the JAM
@@ -137,5 +137,5 @@ def main(package):
 
     # TODO Keep log of installed packages
     logging.info("Installation complete!")
-    print("\nPackage {0} sucessfully installed".format(package))
+    print("\nPackage {0} sucessfully installed.".format(package))
     return True
