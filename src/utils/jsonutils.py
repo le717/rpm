@@ -22,12 +22,6 @@ def read(path):
     @return {*|NoneType} The parsed JSON data,
                         None if file could not be loaded or parsed.
     """
-    # Python 3.5+ uses a new exception for JSON errors
-    try:
-        parseException = json.JSONDecodeError
-    except AttributeError:
-        parseException = ValueError
-
     try:
         # Make sure it exists
         if not os.path.isfile(path):
@@ -41,7 +35,7 @@ def read(path):
         return data
 
     # The file is not valid JSON, sliently fail
-    except parseException as e:
+    except json.JSONDecodeError as e:
         logging.warning("Cannot parse JSON file {0}".format(path))
         logging.debug(e)
         return None
