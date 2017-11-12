@@ -23,6 +23,6 @@ package.json contains the package details you supply when the command is run.
 If you need to edit the details, you can open it in your preferred text editor.
 For details on the JSON format and how to edit it, Copter Labs has written
 an excellent article on the subject.
-http://www.copterlabs.com/json-what-it-is-how-it-works-how-to-use-it""".format(
+https://www.copterlabs.com/json-what-it-is-how-it-works-how-to-use-it/""".format(
         const.APP_NAME)
     print(message)

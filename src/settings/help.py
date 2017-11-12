@@ -18,7 +18,7 @@ as that is not needed. Once a valid game installation is confirmed,
 game revision you own.
 
 If at any time your game installation changes location or needs to be
-configured, simply run the command again to restart the process.
+reconfigured, simply run the command again to restart the process.
 
 If you would like to learn more about the game differences between
 revisions, Rock Raiders United is an excellent resource for all things
