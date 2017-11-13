@@ -41,7 +41,7 @@ class Settings:
         """
         if self.__settings is None:
             return None
-        self.__settings.get(key, None)
+        self.__settings.get(key)
 
     def get_all(self):
         """Get the entire settings dictionary.
