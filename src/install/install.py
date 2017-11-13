@@ -29,7 +29,7 @@ def abort_install():
     @return {Boolean} Always returns False.
     """
     logging.info("Installation aborted")
-    print("Installation will now abort")
+    print("Installation will now abort.")
     return False
 
 
@@ -40,7 +40,7 @@ def main(package):
 
     # Get the user settings
     settings = userSettings.load()
-    appUtils = utils.AppUtils()
+    app_utils = utils.AppUtils()
 
     # We do not have any settings
     if not os.path.isdir(settings.get("gameLocation")):
@@ -50,14 +50,14 @@ def main(package):
         return False
 
     # Fetch the package list
-    availablePackages = packagelist.main()
+    available_packages = packagelist.main()
 
     # We were unable to fetch the package list
-    if availablePackages is None:
+    if available_packages is None:
         return False
 
     # The desired package is not available
-    if package not in availablePackages["packages"].keys():
+    if package not in available_packages["packages"].keys():
         logging.warning("Cannot find package {0}!".format(package))
         print("Unable to find package {0} for installation!".format(package))
         return None
@@ -67,10 +67,10 @@ def main(package):
     print("Package {0} is available for installation.".format(package))
 
     # Download the package
-    destZip = os.path.join(appUtils.cachePath, "{0}.zip".format(package))
+    dest = os.path.join(app_utils.cachePath, "{0}.zip".format(package))
     r = download.toDisk(package,
-                        availablePackages["packages"][package]["url"],
-                        destZip)
+                        available_packages["packages"][package]["url"],
+                        dest)
 
     # Ensure the file was downloaded
     if not r:
@@ -78,26 +78,26 @@ def main(package):
         return False
 
     # Extract the JAM
-    jamResult, extractPath = legojam.extract()
-    if not jamResult:
+    jam_result, extract_path = legojam.extract()
+    if not jam_result:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
-    with ZipFile(destZip, "r") as z:
+    with ZipFile(dest, "r") as z:
         # Get the package contents
-        packageFiles = z.namelist()
+        files = z.namelist()
 
         # The required package.json file is missing
-        if not validator.hasPackageJson(packageFiles):
+        if not validator.hasPackageJson(files):
             logging.warning("package.json not found!")
             print(colored.red(
                   "Package is missing package.json and cannot be installed!"))
             return False
 
         # Extract and validate package.json
-        z.extract("package.json", appUtils.tempPath)
+        z.extract("package.json", app_utils.tempPath)
         validateResult = validator.packageJson(
-            os.path.join(appUtils.tempPath, "package.json"))
+            os.path.join(app_utils.tempPath, "package.json"))
 
         # Validation errors occurred
         if validateResult:
@@ -122,16 +122,16 @@ def main(package):
                 return abort_install()
 
         # Remove the JSON from the archive so it is not extracted
-        packageFiles.remove("package.json")
+        files.remove("package.json")
 
         # Install the package
-        logging.info("Extracting package to {0}".format(extractPath))
+        logging.info("Extracting package to {0}".format(extract_path))
         print("Installing package...")
-        z.extractall(extractPath, packageFiles)
+        z.extractall(extract_path, files)
 
     # Compress the JAM
-    jamResult = legojam.build()
-    if not jamResult:
+    jam_result = legojam.build()
+    if not jam_result:
         logging.warning("There was an error building LEGO.JAM!")
         return False
 
