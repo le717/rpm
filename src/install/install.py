@@ -23,6 +23,25 @@ from src.validator import validator
 __all__ = ("main")
 
 
+def display_message(error):
+    result = False
+
+    # Determine the proper color to use
+    # Red for errors, yellow for warnings
+    color = (colored.red if error["result"] == "error"
+             else colored.yellow)
+    print(color("{0}: {1}".format(
+            error["result"].capitalize(),
+            error["message"]
+            ), bold=True))
+
+    # If this is an error, we'll need to abort the process
+    # once all errors are reported
+    if error["result"] == "error":
+        result = True
+    return result
+
+
 def abort_install():
     """Abort a package installation.
 
@@ -104,21 +123,13 @@ def main(package):
             logging.warning("package.json validation errors occurred!")
             print("\nThe following errors in package.json were found:")
 
-            shouldAbort = False
+            # Display each validation error message
+            should_abort = False
             for error in validateResult:
-                # Issue a warning
-                if error["result"] == "warning":
-                    print(colored.yellow("Warning: {0}".format(
-                          error["message"]), bold=True))
-
-                # Issue an error
-                elif error["result"] == "error":
-                    shouldAbort = True
-                    print(colored.red("Error: {0}".format(
-                          error["message"]), bold=True))
+                should_abort = display_message(error)
 
             # A fatal error occurred, we cannot continue on
-            if shouldAbort:
+            if should_abort:
                 return abort_install()
 
         # Remove the JSON from the archive so it is not extracted
