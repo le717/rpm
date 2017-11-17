@@ -46,20 +46,6 @@ class TestJsonUtilsMethods(unittest.TestCase):
     def test_read_nonexistant_json(self):
         self.assertIsNone(jsonutils.read("package.json"))
 
-    def test_write_json(self):
-        file = os.path.join(testhelpers.TEST_FILES_TEMP_PATH, "test.json")
-        data = {
-            "boolean": True,
-            "string": "app",
-            "integer": 42,
-            "float": 3.14,
-            "list": [True, False],
-            "dictionary": {
-                "word": "Python"
-            }
-        }
-        self.assertTrue(jsonutils.write(file, data, 4))
-
 
 if __name__ == "__main__":
     unittest.main()
