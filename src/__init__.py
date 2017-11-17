@@ -19,7 +19,7 @@ from src.settings import settings
 from src.utils import logger
 
 
-def getArguments():
+def get_arguments():
     """Get the app arguments.
 
     @return {Dicionary.<command:string, value:string>}.
@@ -47,7 +47,7 @@ def main():
     logger.main()
 
     # Define all available commands
-    commandsAvailable = {
+    commmands = {
         "help": help.main,
         "init": init.main,
         "install": install.main,
@@ -55,14 +55,14 @@ def main():
     }
 
     # Get the passed arguments
-    arguments = getArguments()
+    arguments = get_arguments()
 
     # Run the function appropriate for the given command
-    if arguments["command"] in commandsAvailable.keys():
-        commandsAvailable[arguments["command"]](arguments["value"])
+    if arguments["command"] in commmands.keys():
+        commmands[arguments["command"]](arguments["value"])
 
     # Only the app was run, display help
     elif arguments["command"] is None:
-        commandsAvailable["help"]()
+        commmands["help"]()
 
     raise SystemExit(0)

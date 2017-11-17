@@ -22,27 +22,26 @@ from . import utils
 
 def main():
     """Application logging."""
-    Utils = utils.AppUtils()
-    configPath = Utils.configPath
-    loggingFile = os.path.join(configPath, "{0}.log".format(const.APP_NAME))
+    config_path = utils.AppUtils().configPath
+    log_file = os.path.join(config_path, "{0}.log".format(const.APP_NAME))
 
     # Get the Python architecture
-    pythonArch = "x64"
+    py_arch = "x64"
     if sys.maxsize < 2 ** 32:
-        pythonArch = "x86"
+        py_arch = "x86"
 
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s : %(levelname)s : %(message)s",
-        filename=loggingFile,
+        filename=log_file,
         filemode="a"
     )
 
-    logging.debug("Begin logging to {0}".format(loggingFile))
+    logging.debug("Begin logging to {0}".format(log_file))
     logging.debug("Timestamp: {0}".format(datetime.utcnow().isoformat()))
     logging.debug("You are running {0} {1} {2} on {3} {4}.".format(
         platform.python_implementation(),
-        pythonArch,
+        py_arch,
         platform.python_version(),
         platform.machine(),
         platform.platform())
