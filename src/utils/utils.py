@@ -22,7 +22,7 @@ class Settings:
 
     """Generic settings class.
 
-    This is used as a thin wrapper around user and app settings
+    This is used as a thin wrapper around user settings
     to more gracefully handle errors.
     """
 
