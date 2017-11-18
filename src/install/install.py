@@ -52,17 +52,24 @@ def abort_install():
 def main(package):
     # No package was given
     if package is None:
-        # TODO: Give an error message here
+        logging.warning("No package was specified!")
+        print(colored.red("No package was specified for installation."))
+        return False
+
+    # The package path given does not exist
+    package = os.path.abspath(package)
+    if not os.path.isfile(package):
+        logging.warning("Package specified does not exist!")
+        print(colored.red("The package specified could not be found."))
         return False
 
     # Get the settings
-    package = os.path.abspath(package)
     settings = user.load()
     app_utils = utils.AppUtils()
 
     # We do not have any settings
     if not os.path.isdir(settings.get("gameLocation")):
-        logging.warning("User has not yet configured settings")
+        logging.warning("User has not yet configured settings!")
         print(colored.red(
               "You need to configure your settings before installing!"))
         return False
