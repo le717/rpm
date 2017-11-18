@@ -16,16 +16,14 @@ from zipfile import ZipFile
 from clint.textui import colored
 
 from . import packagelist
-from src.settings import user as userSettings
 from src.utils import download, legojam, utils
+from src.settings import user
 from src.validator import validator
 
 __all__ = ("main")
 
 
 def display_message(error):
-    result = False
-
     # Determine the proper color to use
     # Red for errors, yellow for warnings
     color = (colored.red if error["result"] == "error"
@@ -38,8 +36,8 @@ def display_message(error):
     # If this is an error, we'll need to abort the process
     # once all errors are reported
     if error["result"] == "error":
-        result = True
-    return result
+        return True
+    return False
 
 
 def abort_install():
@@ -53,12 +51,13 @@ def abort_install():
 
 
 def main(package):
-    # No value was given, silently no-op
+    # No package was given
     if package is None:
+        # TODO: Give an error message here
         return False
 
-    # Get the user settings
-    settings = userSettings.load()
+    # Get the settings
+    settings = user.load()
     app_utils = utils.AppUtils()
 
     # We do not have any settings
@@ -115,17 +114,17 @@ def main(package):
 
         # Extract and validate package.json
         z.extract("package.json", app_utils.tempPath)
-        validateResult = validator.packageJson(
+        validate_result = validator.packageJson(
             os.path.join(app_utils.tempPath, "package.json"))
 
         # Validation errors occurred
-        if validateResult:
+        if validate_result:
             logging.warning("package.json validation errors occurred!")
             print("\nThe following errors in package.json were found:")
 
             # Display each validation error message
             should_abort = False
-            for error in validateResult:
+            for error in validate_result:
                 should_abort = display_message(error)
 
             # A fatal error occurred, we cannot continue on
