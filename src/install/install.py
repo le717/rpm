@@ -15,9 +15,8 @@ import logging
 from zipfile import ZipFile
 from clint.textui import colored
 
-from . import packagelist
-from src.utils import download, legojam, utils
 from src.settings import user
+from src.utils import legojam, utils
 from src.validator import validator
 
 __all__ = ("main")
@@ -57,6 +56,7 @@ def main(package):
         return False
 
     # Get the settings
+    package = os.path.abspath(package)
     settings = user.load()
     app_utils = utils.AppUtils()
 
@@ -67,41 +67,13 @@ def main(package):
               "You need to configure your settings before installing!"))
         return False
 
-    # Fetch the package list
-    available_packages = packagelist.main()
-
-    # We were unable to fetch the package list
-    if available_packages is None:
-        return False
-
-    # The desired package is not available
-    if package not in available_packages["packages"].keys():
-        logging.warning("Cannot find package {0}!".format(package))
-        print("Unable to find package {0} for installation!".format(package))
-        return None
-
-    # The package was found
-    logging.info("Package {0} is available".format(package))
-    print("Package {0} is available for installation.".format(package))
-
-    # Download the package
-    dest = os.path.join(app_utils.cachePath, "{0}.zip".format(package))
-    r = download.toDisk(package,
-                        available_packages["packages"][package]["url"],
-                        dest)
-
-    # Ensure the file was downloaded
-    if not r:
-        print(colored.red("Unable to download package {0}!".format(package)))
-        return False
-
     # Extract the JAM
     jam_result, extract_path = legojam.extract()
     if not jam_result:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
-    with ZipFile(dest, "r") as z:
+    with ZipFile(package, "r") as z:
         # Get the package contents
         files = z.namelist()
 
