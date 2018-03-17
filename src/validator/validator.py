@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -64,8 +64,7 @@ def validateName(name):
     if len(name) > PACKAGE_NAME_MAX_LENGTH:
         return __makeErrorDict(name, "error",
                                "name cannot contain more than"
-                               " {0} characters.".format(
-                                   PACKAGE_NAME_MAX_LENGTH))
+                               f" {PACKAGE_NAME_MAX_LENGTH} characters.")
 
     # Uppercase letter check
     if re.findall(r"[A-Z]", name):
@@ -79,12 +78,11 @@ def validateName(name):
     # Invalid Windows names/charcters check
     if name in badNames:
         return __makeErrorDict(name, "error",
-                               'name "{0}" is not allowed.'.format(name))
+                               f'name "{name}" is not allowed.')
     for char in name:
         if char in badChars:
             return __makeErrorDict(name, "error",
-                                   'character "{0}" is not allowed.'
-                                   .format(char))
+                                   f'character "{char}" is not allowed.')
     return __makeErrorDict(name, None, None)
 
 
@@ -103,7 +101,7 @@ def validateVersion(version):
     matches = re.match(r"^(?:\d+[.]){2}\d+$", version)
     if not matches:
         return __makeErrorDict(version, "error",
-                               'Invalid version: "{0}"'.format(version))
+                               f'Invalid version: "{version}"')
     return __makeErrorDict(version, None, None)
 
 
@@ -123,7 +121,7 @@ def isMissingKeys(keys):
     # Check for key existance
     for key in allKeys:
         if key not in keys:
-            msg = 'missing key "{0}"'.format(key)
+            msg = f'missing key "{key}"'
 
             # A required key is missing
             if key in ("name", "version"):
@@ -179,7 +177,7 @@ def packageJson(path):
 
             # A test failed
             if valid["result"]:
-                logging.warning("Validation for key {0} failed!".format(k))
+                logging.warning(f"Validation for key {k} failed!")
                 results.append(valid)
 
     return (results if results else False)

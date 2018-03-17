@@ -15,12 +15,12 @@ def main(command=None):
 
     # General help is requested
     if command is None:
-        message = """Usage: {0} <command>
+        message = f"""Usage: {const.APP_NAME} <command>
 
 where command is one of:
     help, init, install, settings
 
-{0} help <command>    search for help on <command>""".format(const.APP_NAME)
+{const.APP_NAME} help <command> search for help on <command>"""
         print(message)
 
     # Specific command help

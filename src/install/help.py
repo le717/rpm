@@ -5,9 +5,8 @@ import src.constants as const
 
 
 def main():
-    message = """Usage: {0} install <package>
+    message = f"""Usage: {const.APP_NAME} install <package>
 
 DESCRIPTION
-This command installs the specified package into your game.""".format(
-        const.APP_NAME)
+This command installs the specified package into your game."""
     print(message)

@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -33,7 +33,7 @@ setup(
     name=const.APP_NAME,
     version=const.VERSION,
     author=const.VERSION,
-    description="{0} v{1}".format(const.APP_NAME, const.VERSION),
+    description=f"{const.APP_NAME} v{const.VERSION}",
     license="MIT",
     options={"build_exe": build_exe_options},
     executables=[Executable("rpm.py", targetName="rpm.exe")]

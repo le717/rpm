@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -27,10 +27,7 @@ def display_message(error):
     # Red for errors, yellow for warnings
     color = (colored.red if error["result"] == "error"
              else colored.yellow)
-    print(color("{0}: {1}".format(
-            error["result"].capitalize(),
-            error["message"]
-            ), bold=True))
+    print(color(f"{error['result'].capitalize()}: {error['message']}", bold=True))
 
     # If this is an error, we'll need to abort the process
     # once all errors are reported
@@ -114,7 +111,7 @@ def main(package):
         files.remove("package.json")
 
         # Install the package
-        logging.info("Extracting package to {0}".format(extract_path))
+        logging.info(f"Extracting package to {extract_path}")
         print("Installing package...")
         z.extractall(extract_path, files)
 
@@ -126,5 +123,5 @@ def main(package):
 
     # TODO Keep log of installed packages
     logging.info("Installation complete!")
-    print("\nPackage {0} sucessfully installed.".format(package))
+    print(f"\nPackage {package} sucessfully installed.")
     return True

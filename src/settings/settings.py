@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -60,8 +60,7 @@ def __confirmGame(gamePath):
 
     # The path does not exist
     if not os.path.isdir(gamePath):
-        logging.warning("Could not find game installation at {0}".format(
-                        gamePath))
+        logging.warning(f"Could not find game installation at {gamePath}")
         return False
 
     # Look for the expected game files
@@ -75,11 +74,10 @@ def __confirmGame(gamePath):
         os.path.isfile(jamPath) and
         os.path.isfile(dllPath)
     ):
-        logging.info("Game installation found at {0}".format(gamePath))
+        logging.info(f"Game installation found at {gamePath}")
         return True
 
-    logging.warning("Could not find game installation at {0}".format(
-                    gamePath))
+    logging.warning(f"Could not find game installation at {gamePath}")
     return False
 
 
@@ -109,8 +107,8 @@ def main(*args):
         # Game could not be configured, abort
         if not r:
             logging.warning("Unable to configure 2001 release!")
-            print(colored.red("""Unable to configure {0} settings!
-Please try again later.""".format(const.APP_NAME)))
+            print(colored.red("""Unable to configure settings!
+Please try again later."""))
             return False
 
     # Save the settings

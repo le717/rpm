@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -35,5 +35,5 @@ def save(data):
     @param {*} data The JSON-parsable data to be written.
     @return See signature for jsonutils::write.
     """
-    logging.info("Writing user settings to {0}".format(fileName))
+    logging.info(f"Writing user settings to {fileName}")
     return jsonutils.write(fileName, data, indent=4)

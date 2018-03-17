@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """rpm - LEGO Racers mods package manager.
 
-Created 2015-2017 Caleb Ely
+Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
 
 Licensed under The MIT License
@@ -24,8 +24,8 @@ def __displayError(value, message):
     @param {String} value The invalid value in question.
     @param {String} message The error message.
     """
-    logging.warning("Invalid package value: {0}".format(value))
-    logging.debug("Reason: {0}".format(message))
+    logging.warning(f"Invalid package value: {value}")
+    logging.debug(f"Reason: {message}")
     print(message)
 
 
@@ -38,7 +38,7 @@ def __getPackageName():
     validName = False
 
     while not validName:
-        packageName = input("name: ({0}) ".format(defaultName))
+        packageName = input(f"name: ({defaultName}) ")
         # The default value will be used
         if packageName == "":
             packageName = defaultName
@@ -128,8 +128,7 @@ Press ^C at any time to quit.
         # Create the required folder structure
         createPackageFols(os.getcwd())
 
-        print("\nBoilerplate for package {0} sucessfully created.".format(
-              packageDetails["name"]))
+        print(f"\nBoilerplate for package {packageDetails['name']} sucessfully created.")
         return True
 
     # The user canceled the processed
