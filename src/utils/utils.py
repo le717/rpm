@@ -56,7 +56,7 @@ class AppUtils:
     """Utility properties and methods.
 
     Exposes the following public properties and methods:
-    * isWindows {Boolean} True if the user is running a Windows OS.
+    * is_windows {Boolean} True if the user is running a Windows OS.
     * configPath {String} An absolute path to the app's configuration folder.
     * cachePath {String} An absolute path to the download cache folder.
     * tempPath {String} An absolute path to a temporary files folder.
@@ -64,7 +64,7 @@ class AppUtils:
 
     def __init__(self):
         """Initalize public properties and run utility functions."""
-        self.isWindows = "Windows" in platform.platform()
+        self.is_windows = "Windows" in platform.platform()
         self.configPath = self.__getConfigPath()
         self.cachePath = self.__createFolder(
             os.path.join(self.configPath, "cache"))
@@ -81,7 +81,7 @@ class AppUtils:
         @return {String} The configuration path.
         """
         root = os.path.expanduser("~")
-        if self.isWindows:
+        if self.is_windows:
             root = os.path.expandvars("%AppData%")
 
         # Create the path if needed

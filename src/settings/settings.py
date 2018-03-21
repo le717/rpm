@@ -102,7 +102,7 @@ def main(*args):
     if appOpts["gameRelease"] == "2001":
         logging.info("Configuring 2001 release to run without a JAM")
         print("Performing one-time configuration. This should only take a few minutes.\n")
-        r = legojam.configure2001Release(appOpts["gameLocation"])
+        r = legojam.config_2001_copy(appOpts["gameLocation"])
 
         # Game could not be configured, abort
         if not r:
