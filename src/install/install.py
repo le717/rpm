@@ -122,6 +122,7 @@ def main(package):
         return False
 
     # TODO Keep log of installed packages
+    # TODO Display package name and version instead of path
     logging.info("Installation complete!")
     print(f"\nPackage {package} sucessfully installed.")
     return True

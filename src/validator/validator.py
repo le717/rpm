@@ -155,7 +155,7 @@ def is_missing_keys(keys):
             else:
                 results.append(__make_error_dict(key, "warning", msg))
                 logging.warning(msg)
-    return (results if results else False)
+    return results if results else False
 
 
 def package_json(path):
@@ -185,7 +185,7 @@ def package_json(path):
     # Required key(s) is/are missing
     missing = is_missing_keys(tuple(package_json.keys()))
     if missing:
-        results = [_ for _ in missing]
+        results = missing
 
     available_validators = {
         "name": validate_name,
@@ -203,4 +203,4 @@ def package_json(path):
                 logging.warning(f"Validation for key {k} failed!")
                 results.append(valid)
 
-    return (results if results else False)
+    return results if results else False

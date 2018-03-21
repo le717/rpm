@@ -40,7 +40,6 @@ def get_arguments():
 
 def main():
     """Run the application."""
-    print()
     logger.main()
 
     # Define all available commands

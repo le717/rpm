@@ -4,7 +4,7 @@ import logging
 import zipfile
 
 
-TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "files")
+TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "tests", "files")
 TEST_FILES_TEMP_PATH = os.path.join(TEST_FILES_ROOT_PATH, "temp")
 
 
@@ -17,6 +17,7 @@ def delete_temp_files():
             os.remove(os.path.join(root, name))
         for name in dirs:
             os.rmdir(os.path.join(root, name))
+    os.rmdir(TEST_FILES_TEMP_PATH)
 
 
 def list_archive_files(zip):
