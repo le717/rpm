@@ -45,7 +45,7 @@ def __get_package_name():
 
         # We still need to validate both a user-supplied name
         # and the default name
-        r = validator.validateName(package_name)
+        r = validator.validate_name(package_name)
 
         # Display error message if needed
         if r["result"] is None:
@@ -67,7 +67,7 @@ def __get_package_version():
         # The default value will be used
         if package_version == "":
             break
-        r = validator.validateVersion(package_version)
+        r = validator.validate_version(package_version)
 
         # Display error message if needed
         if r["result"] is None:

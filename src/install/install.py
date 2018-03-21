@@ -82,7 +82,7 @@ def main(package):
         files = z.namelist()
 
         # The required package.json file is missing
-        if not validator.hasPackageJson(files):
+        if not validator.has_package_json(files):
             logging.warning("package.json not found!")
             print(colored.red(
                   "Package is missing package.json and cannot be installed!"))
@@ -90,7 +90,7 @@ def main(package):
 
         # Extract and validate package.json
         z.extract("package.json", app_utils.tempPath)
-        validate_result = validator.packageJson(
+        validate_result = validator.package_json(
             os.path.join(app_utils.tempPath, "package.json"))
 
         # Validation errors occurred
