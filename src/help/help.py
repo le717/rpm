@@ -7,7 +7,7 @@ import src.settings.help as settings
 
 
 def main(command=None):
-    commandsAvailable = {
+    commands_available = {
         "init": init.main,
         "install": install.main,
         "settings": settings.main
@@ -15,7 +15,8 @@ def main(command=None):
 
     # General help is requested
     if command is None:
-        message = f"""Usage: {const.APP_NAME} <command>
+        message = f"""USAGE
+{const.APP_NAME} <command>
 
 where command is one of:
     help, init, install, settings
@@ -24,5 +25,5 @@ where command is one of:
         print(message)
 
     # Specific command help
-    elif command in commandsAvailable.keys():
-        commandsAvailable[command]()
+    elif command in commands_available.keys():
+        commands_available[command]()

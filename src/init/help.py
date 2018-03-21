@@ -5,7 +5,8 @@ import src.constants as const
 
 
 def main():
-    message = f"""Usage: {const.APP_NAME} init
+    message = f"""USAGE
+{const.APP_NAME} init
 
 DESCRIPTION
 This command creates the boilerplate structure for a new package.

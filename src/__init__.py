@@ -24,7 +24,6 @@ def get_arguments():
 
     @return {Dicionary.<command:string, value:string>}.
     """
-    argu = sys.argv
     result = {
         "command": None,
         "value": None
@@ -32,17 +31,15 @@ def get_arguments():
 
     # Collect the arguments passed
     try:
-        result["command"] = argu[1]
-        result["value"] = argu[2]
+        result["command"] = sys.argv[1]
+        result["value"] = sys.argv[2]
     except IndexError:
-        return result
-
+        pass
     return result
 
 
 def main():
     """Run the application."""
-    # Start app logging
     print()
     logger.main()
 

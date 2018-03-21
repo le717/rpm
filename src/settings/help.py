@@ -5,7 +5,8 @@ import src.constants as const
 
 
 def main():
-    message = f"""Usage: {const.APP_NAME} settings
+    message = f"""USAGE
+{const.APP_NAME} settings
 
 DESCRIPTION
 This command allows you to adjust user-defined settings.

@@ -15,10 +15,10 @@ import logging
 from src.utils import jsonutils
 from src.validator import validator
 
-__all__ = ("main", "createPackageFols")
+__all__ = ("main", "create_package_fols")
 
 
-def __displayError(value, message):
+def __display_error(value, message):
     """Display a validation error message.
 
     @param {String} value The invalid value in question.
@@ -29,55 +29,55 @@ def __displayError(value, message):
     print(message)
 
 
-def __getPackageName():
+def __get_package_name():
     """Get the package name.
 
     @return {String}
     """
-    defaultName = os.path.basename(os.getcwd())
-    validName = False
+    default_name = os.path.basename(os.getcwd())
+    valid_name = False
 
-    while not validName:
-        packageName = input(f"name: ({defaultName}) ")
+    while not valid_name:
+        package_name = input(f"name: ({default_name}) ")
         # The default value will be used
-        if packageName == "":
-            packageName = defaultName
+        if package_name == "":
+            package_name = default_name
 
         # We still need to validate both a user-supplied name
         # and the default name
-        r = validator.validateName(packageName)
+        r = validator.validateName(package_name)
 
         # Display error message if needed
         if r["result"] is None:
-            validName = True
+            valid_name = True
         else:
-            __displayError(r["value"], r["message"])
-    return packageName
+            __display_error(r["value"], r["message"])
+    return package_name
 
 
-def __getPackageVersion():
+def __get_package_version():
     """Get the package version.
 
     @return {String}
     """
-    validVersion = False
+    valid_version = False
 
-    while not validVersion:
-        packageVersion = input("version: (1.0.0) ")
+    while not valid_version:
+        package_version = input("version: (1.0.0) ")
         # The default value will be used
-        if packageVersion == "":
+        if package_version == "":
             break
-        r = validator.validateVersion(packageVersion)
+        r = validator.validateVersion(package_version)
 
         # Display error message if needed
         if r["result"] is None:
-            validVersion = True
+            valid_version = True
         else:
-            __displayError(r["value"], r["message"])
-    return (packageVersion if packageVersion else "1.0.0")
+            __display_error(r["value"], r["message"])
+    return (package_version if package_version else "1.0.0")
 
 
-def createPackageFols(path):
+def create_package_fols(path):
     """Create the package folder structure.
 
     @param {String} path An absolute path to the package location.
@@ -93,14 +93,14 @@ def createPackageFols(path):
 
 
 def main(*args):
-    print("""This utility will walk you through creating a package.json file.
-It only covers the most common items, and tries to guess sensible defaults.
+    print("""This process will walk you through creating a new package.
+It tries to suggest sensible default when available.
 
 Press ^C at any time to quit.
 """)
 
     try:
-        packageDetails = {
+        package_details = {
             "name": None,
             "version": None,
             "author": None,
@@ -110,25 +110,25 @@ Press ^C at any time to quit.
 
         # Get the package name and version
         logging.info("Collecting package name")
-        packageDetails["name"] = __getPackageName()
+        package_details["name"] = __get_package_name()
         logging.info("Collecting package version")
-        packageDetails["version"] = __getPackageVersion()
+        package_details["version"] = __get_package_version()
 
         # Get the remaining package details
         logging.info("Collecting remaining package details")
-        packageDetails["author"] = input("author: ")
-        packageDetails["description"] = input("description: ")
-        packageDetails["homepage"] = input("homepage: ")
+        package_details["author"] = input("author: ")
+        package_details["description"] = input("description: ")
+        package_details["homepage"] = input("homepage: ")
 
         # Write package.json
         logging.info("Writing package.json")
-        packageJson = os.path.join(os.getcwd(), "package.json")
-        jsonutils.write(packageJson, packageDetails, 4)
+        package_json = os.path.join(os.getcwd(), "package.json")
+        jsonutils.write(package_json, package_details, 4)
 
         # Create the required folder structure
-        createPackageFols(os.getcwd())
+        create_package_fols(os.getcwd())
 
-        print(f"\nBoilerplate for package {packageDetails['name']} sucessfully created.")
+        print(f"\nBoilerplate for package {package_details['name']} successfully created.")
         return True
 
     # The user canceled the processed
