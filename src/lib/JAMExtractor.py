@@ -286,28 +286,3 @@ def build(path, verbose):
     print("COMPLETE: Achive built.\nOUTPUT: " + outFile)
 
     return True
-
-#Detect if executable or not.
-fileName = sys.argv[0].split(os.sep).pop()
-if fileName[-3:] == ".py" or fileName[-4:] == ".pyw":
-    runCommand = "python " + fileName
-else:
-    runCommand = fileName
-
-#Preprocess arguments.
-fileList = []
-verbose = False
-for i in range(1, len(sys.argv)):
-    arg = sys.argv[i]
-    if arg == "--verbose":
-        verbose = True
-    else:
-        fileList.append(arg)
-
-#Process files/folders arrordingly or display message.
-if len(fileList) > 0:
-    for i in fileList:
-        if os.path.isfile(i):
-            extract(i, verbose)
-        elif os.path.isdir(i):
-            build(i, verbose)
