@@ -27,7 +27,10 @@ def display_message(error):
     # Red for errors, yellow for warnings
     color = (colored.red if error["result"] == "error"
              else colored.yellow)
-    print(color(f"{error['result'].capitalize()}: {error['message']}", bold=True))
+    print(color(
+        f"{error['result'].capitalize()}: {error['message']}",
+        bold=True
+    ))
 
     # If this is an error, we'll need to abort the process
     # once all errors are reported

@@ -160,7 +160,7 @@ class TestValidatorMethods(unittest.TestCase):
 
         packageJson = jsonutils.read(os.path.join(
             testhelpers.TEST_FILES_TEMP_PATH,
-            "rock-racers-missing-keys",  "package.json"))
+            "rock-racers-missing-keys", "package.json"))
         result = validator.is_missing_keys(packageJson)
         expected = [
             {

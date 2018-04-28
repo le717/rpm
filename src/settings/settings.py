@@ -14,7 +14,6 @@ import os
 import logging
 from clint.textui import colored
 
-import src.constants as const
 from src.utils import legojam
 from . import user as userSettings
 
