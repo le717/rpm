@@ -11,7 +11,7 @@ Licensed under The MIT License
 
 
 import os
-from cx_Freeze import (setup, Executable)
+from cx_Freeze import setup, Executable
 
 from src import constants as const
 
@@ -26,7 +26,7 @@ if not os.path.exists(dest_folder):
 build_exe_options = {
     "build_exe": dest_folder,
     "optimize": 2,
-    "bin_path_excludes": [".vscode", "tests"]
+    "bin_path_excludes": [".vscode", "bin", "tests"]
 }
 
 setup(
