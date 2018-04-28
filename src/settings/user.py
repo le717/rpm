@@ -17,7 +17,7 @@ from src.utils import utils, jsonutils
 
 __all__ = ("load", "save")
 
-fileName = os.path.join(utils.AppUtils().configPath, "user.json")
+fileName = os.path.join(utils.AppUtils().config_path, "user.json")
 
 
 def load():

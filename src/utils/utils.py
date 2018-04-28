@@ -57,18 +57,18 @@ class AppUtils:
 
     Exposes the following public properties and methods:
     * is_windows {Boolean} True if the user is running a Windows OS.
-    * configPath {String} An absolute path to the app's configuration folder.
-    * tempPath {String} An absolute path to a temporary files folder.
+    * config_path {String} An absolute path to the app's configuration folder.
+    * temp_path {String} An absolute path to a temporary files folder.
     """
 
     def __init__(self):
         """Initalize public properties and run utility functions."""
         self.is_windows = "Windows" in platform.platform()
-        self.configPath = self.__getConfigPath()
-        self.tempPath = self.__createFolder(
-            os.path.join(self.configPath, "temp"))
+        self.config_path = self.__get_config_path()
+        self.temp_path = self.__create_folter(
+            os.path.join(self.config_path, "temp"))
 
-    def __getConfigPath(self):
+    def __get_config_path(self):
         """Get the file path where configuration files will be stored.
 
         On Windows, the root folder is %AppData%, while on macOS and Linux
@@ -87,7 +87,7 @@ class AppUtils:
 
         return path
 
-    def __createFolder(self, path):
+    def __create_folder(self, path):
         """Create the given folder and all preceeding folders.
 
         @param {String} path An absolute path for the desired folder.

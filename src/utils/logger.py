@@ -22,7 +22,7 @@ from . import utils
 
 def main():
     """Application logging."""
-    config_path = utils.AppUtils().configPath
+    config_path = utils.AppUtils().config_path
     log_file = os.path.join(config_path, f"{const.APP_NAME}.log")
 
     # Get the Python architecture

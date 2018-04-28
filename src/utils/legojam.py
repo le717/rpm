@@ -98,7 +98,7 @@ def config_2001_copy(path):
     logging.info("Backup the existing JAM and add our dummy file in its place")
     os.rename(os.path.join(path, "LEGO.JAM"),
               os.path.join(path, "PRE-RPM-LEGO.JAM"))
-    shutil.copy2(os.path.join(utils.AppUtils().configPath, "LEGO.JAM"),
+    shutil.copy2(os.path.join(utils.AppUtils().config_path, "LEGO.JAM"),
                  os.path.join(path, "LEGO.JAM"))
     return True
 

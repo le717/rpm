@@ -92,9 +92,9 @@ def main(package):
             return False
 
         # Extract and validate package.json
-        z.extract("package.json", app_utils.tempPath)
+        z.extract("package.json", app_utils.temp_path)
         validate_result = validator.package_json(
-            os.path.join(app_utils.tempPath, "package.json"))
+            os.path.join(app_utils.temp_path, "package.json"))
 
         # Validation errors occurred
         if validate_result:
