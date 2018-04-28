@@ -65,7 +65,7 @@ class AppUtils:
         """Initalize public properties and run utility functions."""
         self.is_windows = "Windows" in platform.platform()
         self.config_path = self.__get_config_path()
-        self.temp_path = self.__create_folter(
+        self.temp_path = self.__create_folder(
             os.path.join(self.config_path, "temp"))
 
     def __get_config_path(self):
