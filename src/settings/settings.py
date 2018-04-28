@@ -92,6 +92,12 @@ def main(*args):
         gamePath = input("Please enter the path to your game installation:\n")
         pathExists = __confirmGame(gamePath)
 
+        # A valid path was not given
+        if not pathExists:
+            print(colored.red(
+                "Could not find game installation at that location!\n"
+            ))
+
     # Extract the information we need
     appOpts["gameLocation"] = os.path.abspath(gamePath.replace("\\", "/"))
     appOpts["gameRelease"] = __getVersion(gamePath)
