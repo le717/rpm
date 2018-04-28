@@ -16,7 +16,7 @@ from zipfile import ZipFile
 from clint.textui import colored
 
 from src.settings import user
-from src.utils import legojam, utils
+from src.utils import legojam, jsonutils, utils
 from src.validator import validator
 
 __all__ = ("main")
@@ -66,6 +66,7 @@ def main(package):
     # Get the settings
     settings = user.load()
     app_utils = utils.AppUtils()
+    package_details = None
 
     # We do not have any settings
     if not os.path.isdir(settings.get("gameLocation")):
@@ -110,7 +111,10 @@ def main(package):
             if should_abort:
                 return abort_install()
 
-        # Remove the JSON from the archive so it is not extracted
+        # Get the package details before removing the JSON
+        # from the archive listing so it is not extracted
+        package_details = jsonutils.read(
+            os.path.join(app_utils.temp_path, "package.json"))
         files.remove("package.json")
 
         # Install the package
@@ -125,7 +129,6 @@ def main(package):
         return False
 
     # TODO Keep log of installed packages
-    # TODO Display package name and version instead of path
     logging.info("Installation complete!")
-    print(f"\nPackage {package} sucessfully installed.")
+    print(f"{package_details['name']} {package_details['version']} sucessfully installed.")
     return True
