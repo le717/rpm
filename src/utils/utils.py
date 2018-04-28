@@ -58,7 +58,6 @@ class AppUtils:
     Exposes the following public properties and methods:
     * is_windows {Boolean} True if the user is running a Windows OS.
     * configPath {String} An absolute path to the app's configuration folder.
-    * cachePath {String} An absolute path to the download cache folder.
     * tempPath {String} An absolute path to a temporary files folder.
     """
 
@@ -66,8 +65,6 @@ class AppUtils:
         """Initalize public properties and run utility functions."""
         self.is_windows = "Windows" in platform.platform()
         self.configPath = self.__getConfigPath()
-        self.cachePath = self.__createFolder(
-            os.path.join(self.configPath, "cache"))
         self.tempPath = self.__createFolder(
             os.path.join(self.configPath, "temp"))
 
