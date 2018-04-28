@@ -75,17 +75,16 @@ class AppUtils:
         """Get the file path where configuration files will be stored.
 
         On Windows, the root folder is %AppData%, while on macOS and Linux
-        it is ~. On all platforms, the rest of the path is
-        Triangle717/APP_NAME.
+        it is ~./config. On all platforms, the rest of the path is APP_NAME.
 
         @return {String} The configuration path.
         """
-        root = os.path.expanduser("~")
+        root = os.path.expanduser(os.path.join("~", ".config"))
         if self.is_windows:
             root = os.path.expandvars("%AppData%")
 
         # Create the path if needed
-        path = os.path.join(root, "Triangle717", const.APP_NAME)
+        path = os.path.join(root, const.APP_NAME)
         if not os.path.exists(path):
             os.makedirs(path)
 
