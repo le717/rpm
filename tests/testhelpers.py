@@ -25,17 +25,17 @@ def list_archive_files(zip):
         return z.namelist()
 
 
-def extract_archive(zip, path, file="all"):
+def extract_archive(zip, path, f="all"):
     packageFiles = list_archive_files(zip)
     with zipfile.ZipFile(zip, "r") as z:
-        if file == "all":
+        if f == "all":
             z.extractall(path, packageFiles)
             return True
         else:
-            if file not in packageFiles:
+            if f not in packageFiles:
                 return False
             else:
-                z.extract(file, path)
+                z.extract(f, path)
                 return True
 
 

@@ -139,6 +139,26 @@ class TestValidatorMethods(unittest.TestCase):
         packageFiles = testhelpers.list_archive_files(packageZip)
         self.assertFalse(validator.has_package_json(packageFiles))
 
+    def test_package_invalid_package_json(self):
+        packageJson = os.path.join(
+            testhelpers.TEST_FILES_TEMP_PATH,
+            "rock-racers-invalid-json", "package.json")
+
+        testhelpers.extract_archive(os.path.join(
+            testhelpers.TEST_FILES_ROOT_PATH,
+            "rock-racers", "rock-racers-invalid-json.zip"),
+            packageJson)
+
+        result = validator.package_json(packageJson)
+        expected = [
+            {
+                'message': 'Unable to read package.json!',
+                'result': 'error',
+                'value': None
+            }
+        ]
+        self.assertEqual(expected, result)
+
     def test_package_is_not_missing_keys(self):
         testhelpers.extract_archive(os.path.join(
             testhelpers.TEST_FILES_ROOT_PATH,

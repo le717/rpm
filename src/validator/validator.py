@@ -178,7 +178,7 @@ def package_json(path):
     # The JSON could not be parsed (most likely invalid)
     if not package_json:
         logging.error("Unable to read package.json!")
-        results.append(__make_error_dict(None, "warning",
+        results.append(__make_error_dict(None, "error",
                        "Unable to read package.json!"))
         return results
 
