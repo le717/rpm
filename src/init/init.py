@@ -43,10 +43,8 @@ def __get_package_name() -> str:
         if package_name == "":
             package_name = default_name
 
-        # We need to validate the package name
-        r = validator.validate_name(package_name)
-
         # Display error message if needed
+        r = validator.validate_name(package_name)
         if r["result"] is None:
             valid_name = True
         else:
@@ -59,21 +57,23 @@ def __get_package_version() -> str:
 
     @return {String}
     """
+    default_version = "1.0.0"
     valid_version = False
 
     while not valid_version:
-        package_version = input("version: (1.0.0) ")
+        package_version = input(f"version: ({default_version}) ")
         # The default value will be used
         if package_version == "":
+            package_version = default_version
             break
-        r = validator.validate_version(package_version)
 
         # Display error message if needed
+        r = validator.validate_version(package_version)
         if r["result"] is None:
             valid_version = True
         else:
             __display_error(r["value"], r["message"])
-    return (package_version if package_version else "1.0.0")
+    return package_version
 
 
 def create_package_fols(path: str) -> bool:
@@ -95,7 +95,7 @@ def main(*args) -> bool:
     print("""This process will walk you through creating a new package.
 It tries to suggest sensible default when available.
 
-Press <Control>+<c> at any time to abort.
+Press <Ctrl+c> at any time to abort.
 """)
 
     try:
@@ -122,6 +122,7 @@ Press <Control>+<c> at any time to abort.
         # Write package.json
         logging.info("Writing package.json")
         package_json = os.path.join(os.getcwd(), "package.json")
+        # TODO Handle failing to write file
         jsonutils.write(package_json, package_details, 4)
 
         # Create the required folder structure
