@@ -11,5 +11,5 @@ Licensed under The MIT License
 
 
 APP_NAME = "rpm"
-VERSION = "0.1.0"
+VERSION = "1.0.0-alpha.2"
 CREATOR = "Caleb Ely"

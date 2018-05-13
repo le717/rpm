@@ -23,5 +23,5 @@ reconfigured, simply run the command again to restart the process.
 
 If you would like to learn more about the game differences between
 revisions, Rock Raiders United is an excellent resource for all things
-LEGO video games. http://www.rockraidersunited.com"""
+LEGO video games. https://www.rockraidersunited.com"""
     print(message)

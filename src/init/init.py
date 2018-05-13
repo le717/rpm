@@ -43,8 +43,7 @@ def __get_package_name() -> str:
         if package_name == "":
             package_name = default_name
 
-        # We still need to validate both a user-supplied name
-        # and the default name
+        # We need to validate the package name
         r = validator.validate_name(package_name)
 
         # Display error message if needed
@@ -96,7 +95,7 @@ def main(*args) -> bool:
     print("""This process will walk you through creating a new package.
 It tries to suggest sensible default when available.
 
-Press ^C at any time to quit.
+Press <Control>+<c> at any time to abort.
 """)
 
     try:
@@ -128,7 +127,8 @@ Press ^C at any time to quit.
         # Create the required folder structure
         create_package_fols(os.getcwd())
 
-        print(f"\nBoilerplate for package {package_details['name']} successfully created.")
+        print(f"""
+Boilerplate for package {package_details['name']} successfully created.""")
         return True
 
     # The user canceled the processed

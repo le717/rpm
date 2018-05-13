@@ -15,8 +15,10 @@ def main(command=None):
 
     # General help is requested
     if command is None:
-        message = f"""USAGE
-{const.APP_NAME} <command>
+        message = f"""{const.APP_NAME} {const.VERSION}
+
+USAGE
+{const.APP_NAME}  <command>
 
 where command is one of:
     help, init, install, settings
