@@ -22,7 +22,7 @@ from src.validator import validator
 __all__ = ("main")
 
 
-def display_message(error):
+def display_message(error: dict) -> bool:
     # Determine the proper color to use
     # Red for errors, yellow for warnings
     color = (colored.red if error["result"] == "error"
@@ -39,7 +39,7 @@ def display_message(error):
     return False
 
 
-def abort_install():
+def abort_install() -> bool:
     """Abort a package installation.
 
     @return {Boolean} Always returns False.
@@ -49,7 +49,7 @@ def abort_install():
     return False
 
 
-def main(package):
+def main(package) -> bool:
     # No package was given
     if package is None:
         logging.warning("No package was specified!")

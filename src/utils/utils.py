@@ -26,14 +26,14 @@ class Settings:
     to more gracefully handle errors.
     """
 
-    def __init__(self, settings):
+    def __init__(self, settings: dict):
         """Initialize class properties.
 
         @param {Dictionary} The settings dictionary to use.
         """
         self.__settings = settings
 
-    def get(self, key):
+    def get(self, key: str):
         """Get a specific setting's value.
 
         @param {String} key The value for the given setting key.
@@ -43,7 +43,7 @@ class Settings:
             return None
         return self.__settings.get(key)
 
-    def get_all(self):
+    def get_all(self) -> dict:
         """Get the entire settings dictionary.
 
         @return {Dictionary}
@@ -68,7 +68,7 @@ class AppUtils:
         self.temp_path = self.__create_folder(
             os.path.join(self.config_path, "temp"))
 
-    def __get_config_path(self):
+    def __get_config_path(self) -> str:
         """Get the file path where configuration files will be stored.
 
         On Windows, the root folder is %AppData%, while on macOS and Linux
@@ -87,7 +87,7 @@ class AppUtils:
 
         return path
 
-    def __create_folder(self, path):
+    def __create_folder(self, path: str) -> str:
         """Create the given folder and all preceeding folders.
 
         @param {String} path An absolute path for the desired folder.

@@ -18,7 +18,7 @@ from src.validator import validator
 __all__ = ("main", "create_package_fols")
 
 
-def __display_error(value, message):
+def __display_error(value: str, message: str):
     """Display a validation error message.
 
     @param {String} value The invalid value in question.
@@ -29,7 +29,7 @@ def __display_error(value, message):
     print(message)
 
 
-def __get_package_name():
+def __get_package_name() -> str:
     """Get the package name.
 
     @return {String}
@@ -55,7 +55,7 @@ def __get_package_name():
     return package_name
 
 
-def __get_package_version():
+def __get_package_version() -> str:
     """Get the package version.
 
     @return {String}
@@ -77,7 +77,7 @@ def __get_package_version():
     return (package_version if package_version else "1.0.0")
 
 
-def create_package_fols(path):
+def create_package_fols(path: str) -> bool:
     """Create the package folder structure.
 
     @param {String} path An absolute path to the package location.
@@ -92,7 +92,7 @@ def create_package_fols(path):
     return True
 
 
-def main(*args):
+def main(*args) -> bool:
     print("""This process will walk you through creating a new package.
 It tries to suggest sensible default when available.
 

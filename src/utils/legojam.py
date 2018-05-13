@@ -23,7 +23,7 @@ from src.utils import utils
 __all__ = ("build", "config_2001_copy", "extract")
 
 
-def __extract_jam(path):
+def __extract_jam(path: str) -> bool:
     """Helper function to extract the JAM archive.
 
     @param {String} path An absolute path to game installation.
@@ -33,7 +33,7 @@ def __extract_jam(path):
     return JAMExtractor.extract(os.path.join(path, "LEGO.JAM"), False)
 
 
-def __build_jam(path):
+def __build_jam(path: str) -> bool:
     """Helper function to build the JAM archive.
 
     @param {String} path An absolute path to game installation.
@@ -43,7 +43,7 @@ def __build_jam(path):
     return JAMExtractor.build(os.path.join(path, "LEGO"), False)
 
 
-def __find_extracted_jam(path):
+def __find_extracted_jam(path: str) -> tuple:
     """Find a possible pre-extracted JAM archive.
 
     @param {String} path An absolute path to game installation.
@@ -71,7 +71,7 @@ def __find_extracted_jam(path):
     return results
 
 
-def config_2001_copy(path):
+def config_2001_copy(path: str)-> bool:
     """
     Configure a 2001 game release to run without a JAM archive,
     as explained on the following website:

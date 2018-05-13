@@ -21,7 +21,7 @@ __all__ = ("PACKAGE_NAME_MAX_LENGTH", "validate_name", "validate_version",
 PACKAGE_NAME_MAX_LENGTH = 214
 
 
-def __make_error_dict(value, result, message):
+def __make_error_dict(value, result, message) -> dict:
     """Create an error dictionary.
 
     @param {*} value The value in question that caused the error.
@@ -37,7 +37,7 @@ def __make_error_dict(value, result, message):
     }
 
 
-def validate_name(name):
+def validate_name(name: str) -> dict:
     """Validate the package name.
 
     @param {String} name The package name.
@@ -106,7 +106,7 @@ def validate_name(name):
     return __make_error_dict(name, None, None)
 
 
-def validate_version(version):
+def validate_version(version: str) -> dict:
     """Validate the package version.
 
     @param {String} version The package version.
@@ -128,7 +128,7 @@ def validate_version(version):
     return __make_error_dict(version, None, None)
 
 
-def has_package_json(files):
+def has_package_json(files) -> bool:
     """Check if package.json is present in the package archive.
 
     @param {Tuple|List} files Files in the archive.
@@ -137,7 +137,7 @@ def has_package_json(files):
     return "package.json" in files
 
 
-def is_missing_keys(keys):
+def is_missing_keys(keys: list):
     results = []
     all_keys = ("name", "version", "author", "description", "homepage")
 
@@ -158,7 +158,7 @@ def is_missing_keys(keys):
     return results if results else False
 
 
-def package_json(path):
+def package_json(path: str):
     """Validate the package.json file.
 
     Validation is defined as containing and filing the required

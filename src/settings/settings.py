@@ -18,7 +18,7 @@ from src.utils import legojam
 from . import user as userSettings
 
 
-def __getVersion(gamePath):
+def __getVersion(gamePath: str):
     """Detect game release year.
 
     @param {String} gamePath An absolute path to the game installation.
@@ -48,7 +48,7 @@ def __getVersion(gamePath):
         return version
 
 
-def __confirmGame(gamePath):
+def __confirmGame(gamePath: str) -> bool:
     """Confirm a game installation at the given path.
 
     @param {String} gamePath An absolute path to the game installation.
@@ -80,7 +80,7 @@ def __confirmGame(gamePath):
     return False
 
 
-def main(*args):
+def main(*args) -> bool:
     pathExists = False
     appOpts = {
         "gameLocation": None,
@@ -102,8 +102,7 @@ def main(*args):
     appOpts["gameLocation"] = os.path.abspath(gamePath.replace("\\", "/"))
     appOpts["gameRelease"] = __getVersion(gamePath)
 
-    # It has been discovered the 2001 release can run JAM-less
-    # Therefore, configure it to do just that
+    # The 2001 release can run JAM-less, configure it to do so
     if appOpts["gameRelease"] == "2001":
         logging.info("Configuring 2001 release to run without a JAM")
         print("Performing one-time configuration. This should only take a few minutes.\n")

@@ -15,7 +15,7 @@ import json
 import logging
 
 
-def read(path):
+def read(path: str):
     """Read and parse a JSON file from disk.
 
     @param {String} path An absolute path to the JSON file to be read.
@@ -41,7 +41,7 @@ def read(path):
         return None
 
 
-def write(path, data, indent=None):
+def write(path: str, data, indent=None) -> bool:
     """Write a JSON file to disk.
 
     @param {String} path An absolute path to the JSON file to be written.
