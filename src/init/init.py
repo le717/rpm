@@ -29,12 +29,40 @@ def __display_error(value: str, message: str):
     print(message)
 
 
-def __get_package_name() -> str:
-    """Get the package name.
+def __get_package_loc() -> str:
+    """Get the package location.
 
     @return {String}
     """
-    default_name = os.path.basename(os.getcwd())
+    default_loc = os.getcwd()
+    valid_loc = False
+
+    while not valid_loc:
+        print("Package output location (leave blank for current directory)")
+        package_loc = input(f"location: ({default_loc}) ")
+        # The default value will be used
+        if package_loc == "":
+            package_loc = default_loc
+
+        # We need to validate the package name
+        package_loc = os.path.abspath(package_loc)
+        r = validator.validate_location(package_loc)
+
+        # Display error message if needed
+        if r["result"] is None:
+            valid_loc = True
+        else:
+            __display_error(r["value"], r["message"])
+    return package_loc
+
+
+def __get_package_name(loc: str) -> str:
+    """Get the package name.
+
+    @param {String} loc - The package output location.
+    @return {String}
+    """
+    default_name = os.path.basename(loc)
     valid_name = False
 
     while not valid_name:
@@ -107,9 +135,11 @@ Press <Ctrl+c> at any time to abort.
             "homepage": None
         }
 
-        # Get the package name and version
+        # Get the package loc, name, and version
+        logging.info("Collecting package location")
+        package_loc = __get_package_loc()
         logging.info("Collecting package name")
-        package_details["name"] = __get_package_name()
+        package_details["name"] = __get_package_name(package_loc)
         logging.info("Collecting package version")
         package_details["version"] = __get_package_version()
 
@@ -121,12 +151,12 @@ Press <Ctrl+c> at any time to abort.
 
         # Write package.json
         logging.info("Writing package.json")
-        package_json = os.path.join(os.getcwd(), "package.json")
+        package_json = os.path.join(package_loc, "package.json")
         # TODO Handle failing to write file
         jsonutils.write(package_json, package_details, 4)
 
         # Create the required folder structure
-        create_package_fols(os.getcwd())
+        create_package_fols(package_loc)
 
         print(f"""
 Boilerplate for package {package_details['name']} successfully created.""")
