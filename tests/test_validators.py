@@ -19,6 +19,18 @@ class TestValidatorMethods(unittest.TestCase):
     def tearDownClass(cls):
         testhelpers.tearDownClass()
 
+    def test_valid_location(self):
+        r = validator.validate_location(testhelpers.TEST_FILES_ROOT_PATH)
+        self.assertIsNone(r["result"])
+        self.assertEqual(r["value"], testhelpers.TEST_FILES_ROOT_PATH)
+        self.assertIsNone(r["message"])
+
+    def test_invalid_location(self):
+        r = validator.validate_location("invalid/path")
+        self.assertEqual(r["result"], "error")
+        self.assertEqual(r["value"], "invalid/path")
+        self.assertIn("must be a valid", r["message"])
+
     def test_valid_name(self):
         r = validator.validate_name("rock-racers")
         self.assertIsNone(r["result"])

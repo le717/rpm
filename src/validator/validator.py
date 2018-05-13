@@ -10,12 +10,14 @@ Licensed under The MIT License
 """
 
 
+import os
 import re
 import logging
 from src.utils import jsonutils
 
-__all__ = ("PACKAGE_NAME_MAX_LENGTH", "validate_name", "validate_version",
-           "is_missing_keys", "has_package_json", "package_json")
+__all__ = ("PACKAGE_NAME_MAX_LENGTH", "validate_location", "validate_name",
+           "validate_version", "is_missing_keys", "has_package_json",
+           "package_json")
 
 
 PACKAGE_NAME_MAX_LENGTH = 214
@@ -35,6 +37,21 @@ def __make_error_dict(value, result, message) -> dict:
         "result": result,
         "value": value
     }
+
+
+def validate_location(loc: str) -> dict:
+    """Validate the package output location.
+
+    @param {String} loc The package output location.
+    @return {Dictionary} See signature for private __make_error_dict method.
+    """
+    if not os.path.isdir(loc):
+        return __make_error_dict(
+            loc,
+            "error",
+            "location must be a valid directory."
+        )
+    return __make_error_dict(loc, None, None)
 
 
 def validate_name(name: str) -> dict:
