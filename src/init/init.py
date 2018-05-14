@@ -35,25 +35,21 @@ def __get_package_loc() -> str:
     @return {String}
     """
     default_loc = os.getcwd()
-    valid_loc = False
 
-    while not valid_loc:
-        print("Package output location (leave blank for current directory)")
-        package_loc = input(f"location: ({default_loc}) ")
-        # The default value will be used
-        if package_loc == "":
-            package_loc = default_loc
+    print("Package output location (leave blank for current directory)")
+    package_loc = input(f"location: ({default_loc}) ")
 
-        # We need to validate the package name
-        # TODO Create the directory if not exists
-        package_loc = os.path.abspath(package_loc)
-        r = validator.validate_location(package_loc)
+    # The default value will be used
+    if package_loc == "":
+        package_loc = default_loc
 
-        # Display error message if needed
-        if r["result"] is None:
-            valid_loc = True
-        else:
-            __display_error(r["value"], r["message"])
+    # We need to validate the package name
+    package_loc = os.path.abspath(package_loc)
+    r = validator.validate_location(package_loc)
+
+    # Create the directory if it does not exist
+    if r["result"] is None:
+        os.makedirs(package_loc)
     return package_loc
 
 
