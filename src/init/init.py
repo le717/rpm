@@ -21,8 +21,8 @@ __all__ = ("main", "create_package_fols")
 def __display_error(value: str, message: str):
     """Display a validation error message.
 
-    @param {String} value The invalid value in question.
-    @param {String} message The error message.
+    @param {String} value - The invalid value in question.
+    @param {String} message - The error message.
     """
     logging.warning(f"Invalid package value: {value}")
     logging.debug(f"Reason: {message}")
@@ -43,13 +43,7 @@ def __get_package_loc() -> str:
     if package_loc == "":
         package_loc = default_loc
 
-    # We need to validate the package name
     package_loc = os.path.abspath(package_loc)
-    r = validator.validate_location(package_loc)
-
-    # Create the directory if it does not exist
-    if r["result"] is None:
-        os.makedirs(package_loc)
     return package_loc
 
 
@@ -101,15 +95,15 @@ def __get_package_version() -> str:
     return package_version
 
 
-def create_package_fols(path: str) -> bool:
+def create_package_fols(loc: str) -> bool:
     """Create the package folder structure.
 
-    @param {String} path An absolute path to the package location.
+    @param {String} loc - An absolute path to the package location.
     @return {Boolean} Always returns True.
     """
     logging.info("Creating folders")
-    folders = (os.path.join(path, "MENUDATA"),
-               os.path.join(path, "GAMEDATA"))
+    folders = (os.path.join(loc, "MENUDATA"),
+               os.path.join(loc, "GAMEDATA"))
     for fol in folders:
         if not os.path.isdir(fol):
             os.makedirs(fol)
@@ -118,7 +112,7 @@ def create_package_fols(path: str) -> bool:
 
 def main(*args) -> bool:
     print("""This process will walk you through creating a new package.
-It tries to suggest sensible default when available.
+It tries to suggest sensible defaults when available.
 
 Press <Ctrl+c> at any time to abort.
 """)
@@ -148,10 +142,10 @@ Press <Ctrl+c> at any time to abort.
 
         # Write package.json and create the required folder structure
         # TODO Handle failing to create files/folders
-        logging.info("Writing package.json")
+        logging.info("Creating package directory and files")
+        create_package_fols(package_loc)
         package_json = os.path.join(package_loc, "package.json")
         jsonutils.write(package_json, package_details, 4)
-        create_package_fols(package_loc)
 
         print(f"""
 Boilerplate for package {package_details['name']} successfully created.""")
