@@ -23,17 +23,17 @@ fileName = os.path.join(utils.AppUtils().config_path, "user.json")
 def load():
     """Load the app settings.
 
-    @return See signature for jsonutils::read.
+    @return See signature for utils.Settings.
     """
     logging.info("Loading user settings")
     return utils.Settings(jsonutils.read(fileName))
 
 
-def save(data):
+def save(data) -> bool:
     """Write the user settings.
 
-    @param {*} data The JSON-parsable data to be written.
-    @return See signature for jsonutils::write.
+    @param {*} data - The JSON-parsable data to be written.
+    @return {Boolean} See signature for jsonutils::write.
     """
     logging.info(f"Writing user settings to {fileName}")
     return jsonutils.write(fileName, data, indent=4)

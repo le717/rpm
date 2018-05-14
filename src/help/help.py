@@ -3,6 +3,7 @@
 import src.constants as const
 import src.init.help as init
 import src.install.help as install
+import src.package.help as package
 import src.settings.help as settings
 
 
@@ -10,6 +11,7 @@ def main(command: str):
     commands_available = {
         "init": init.main,
         "install": install.main,
+        "package": package.main,
         "settings": settings.main
     }
     commands_available_keys = commands_available.keys()
