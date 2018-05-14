@@ -43,15 +43,18 @@ def __build_jam(path: str) -> bool:
     return JAMExtractor.build(os.path.join(path, "LEGO"), False)
 
 
-def __find_extracted_jam(path: str) -> tuple:
+def __find_extracted_jam(path: str) -> dict:
     """Find a possible pre-extracted JAM archive.
 
-    @param {String} path An absolute path to game installation.
-    @return {Tuple.<boolean, ?string>} Index 0 will be False if no path
-                                        was found. If True, index 1 will be
-                                        the the path to the extracted files.
+    @param {String} path - An absolute path to game installation.
+    @return {Dictionary} Key "result" will be False if no path
+                         was found. If True, key "path" will be
+                         the the path to the extracted files.
     """
-    results = (False,)
+    results = {
+        "result": False,
+        "path": None
+    }
     extracted_paths = (
         (os.path.join(path, "MENUDATA"),
          os.path.join(path, "GAMEDATA")),
@@ -65,7 +68,8 @@ def __find_extracted_jam(path: str) -> tuple:
             # Get the exact path detected
             extracted_path = (path if extracted_paths.index(path_group) == 0
                               else os.path.join(path, "LEGO"))
-            results = (True, extracted_path)
+            results["result"] = True
+            results["path"] = extracted_path
             break
 
     return results
@@ -79,7 +83,7 @@ def config_2001_copy(path: str)-> bool:
     """
     # If the JAM has already been extracted, we have nothing to do here
     logging.info("Check if we even need to configure the game")
-    if __find_extracted_jam(path)[0]:
+    if __find_extracted_jam(path)["result"]:
         return True
 
     # Extract the JAM
@@ -126,9 +130,9 @@ def __main(action):
     # JAM extraction has been requested
     if action == "extract":
         # The JAM has already been extracted
-        if pre_extracted[0]:
+        if pre_extracted["result"]:
             logging.info("LEGO.JAM has already been extracted")
-            return pre_extracted
+            return pre_extracted["result"]
 
         # The JAM needs to be extracted
         else:

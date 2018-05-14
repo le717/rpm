@@ -78,7 +78,9 @@ def main(package) -> bool:
         return False
 
     # Extract the JAM
-    jam_result, extract_path = legojam.extract()
+    r = legojam.extract()
+    jam_result = r["result"]
+    extract_path = r["path"]
     if not jam_result:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
