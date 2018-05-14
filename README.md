@@ -7,7 +7,7 @@
 * Python 3.6+
 * `pip install pipenv`
 * `pipenv install --dev`
-* `python rpm.py`
+* `pipenv run python rpm.py`
 
 ## License ##
 

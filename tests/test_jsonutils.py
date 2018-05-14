@@ -43,7 +43,7 @@ class TestJsonUtilsMethods(unittest.TestCase):
             "rock-racers-invalid-json", "package.json"))
         self.assertIsNone(packageJson)
 
-    def test_read_nonexistant_json(self):
+    def test_read_nonexistent_json(self):
         self.assertIsNone(jsonutils.read("package.json"))
 
 

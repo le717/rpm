@@ -160,8 +160,8 @@ Press <Ctrl+c> at any time to abort.
 Boilerplate for package {package_details['name']} successfully created.""")
         return True
 
-    # The user canceled the processed
+    # The user cancelled the process
     except KeyboardInterrupt:
-        logging.info("User canceled package creation.")
-        print("\nPackage creation canceled.")
+        logging.info("User cancelled package creation.")
+        print("\nPackage creation cancelled.")
         return False
