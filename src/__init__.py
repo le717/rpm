@@ -59,6 +59,6 @@ def main():
 
     # Only the app was run, display help
     elif arguments["command"] is None:
-        commmands["help"]()
+        commmands["help"]("help")
 
     raise SystemExit(0)

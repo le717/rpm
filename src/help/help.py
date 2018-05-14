@@ -6,26 +6,30 @@ import src.install.help as install
 import src.settings.help as settings
 
 
-def main(command=None):
+def main(command: str):
     commands_available = {
         "init": init.main,
         "install": install.main,
         "settings": settings.main
     }
+    commands_available_keys = commands_available.keys()
+
+    # Specific command help
+    if command in commands_available_keys:
+        commands_available[command]()
 
     # General help is requested
-    if command is None:
+    else:
         message = f"""{const.APP_NAME} {const.VERSION}
 
 USAGE
-{const.APP_NAME}  <command>
+{const.APP_NAME} <command>
 
 where command is one of:
-    help, init, install, settings
+    {", ".join(commands_available_keys)}
 
-{const.APP_NAME} help <command> search for help on <command>"""
+DESCRIPTION
+Run an available command in {const.APP_NAME}. To display the help text for a
+specific command, run {const.APP_NAME} help <command>.
+Run {const.APP_NAME} help to display this message again at any time."""
         print(message)
-
-    # Specific command help
-    elif command in commands_available.keys():
-        commands_available[command]()
