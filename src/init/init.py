@@ -45,6 +45,7 @@ def __get_package_loc() -> str:
             package_loc = default_loc
 
         # We need to validate the package name
+        # TODO Create the directory if not exists
         package_loc = os.path.abspath(package_loc)
         r = validator.validate_location(package_loc)
 
