@@ -1,11 +1,12 @@
 # rpm #
 
-> LEGO Racers mods package manager
+> LEGO Racers package manager
 
 ## Running from source ##
 
 * Python 3.6+
-* `pip install -r requirements.txt`
+* `pip install pipenv`
+* `pipenv install --dev`
 * `python rpm.py`
 
 ## License ##

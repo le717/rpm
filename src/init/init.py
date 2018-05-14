@@ -149,13 +149,11 @@ Press <Ctrl+c> at any time to abort.
         package_details["description"] = input("description: ")
         package_details["homepage"] = input("homepage: ")
 
-        # Write package.json
+        # Write package.json and create the required folder structure
+        # TODO Handle failing to create files/folders
         logging.info("Writing package.json")
         package_json = os.path.join(package_loc, "package.json")
-        # TODO Handle failing to write file
         jsonutils.write(package_json, package_details, 4)
-
-        # Create the required folder structure
         create_package_fols(package_loc)
 
         print(f"""
