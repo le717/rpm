@@ -31,5 +31,6 @@ where command is one of:
 DESCRIPTION
 Run an available command in {const.APP_NAME}. To display the help text for a
 specific command, run {const.APP_NAME} help <command>.
-Run {const.APP_NAME} help to display this message again at any time."""
+Run {const.APP_NAME} help to display this message again at any time.
+"""
         print(message)

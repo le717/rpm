@@ -12,7 +12,7 @@ Licensed under The MIT License
 
 import os
 import logging
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 from clint.textui import colored
 
 from src.settings import user
@@ -56,11 +56,13 @@ def main(package) -> bool:
         print(colored.red("No package was specified for installation."))
         return False
 
-    # The package path given does not exist
+    # The package path given does not exist or is not a valid zip
     package = os.path.abspath(package)
-    if not os.path.isfile(package):
+    if not os.path.isfile(package) or not is_zipfile(package):
         logging.warning("Package specified does not exist!")
-        print(colored.red("The package specified could not be found."))
+        print(colored.red(
+              "The given package could not be found or is not valid."
+              ))
         return False
 
     # Get the settings
@@ -81,6 +83,7 @@ def main(package) -> bool:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
+    # TODO Look into zip compression
     with ZipFile(package, "r") as z:
         # Get the package contents
         files = z.namelist()
