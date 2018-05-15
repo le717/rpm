@@ -85,10 +85,10 @@ def main(package) -> bool:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
-    # TODO Look into zip compression
-    with ZipFile(package, "r") as z:
+    # TODO, maybe? shutil.unpack_archive, ZipFile.extract
+    with ZipFile(package, "r") as zf:
         # Get the package contents
-        files = z.namelist()
+        files = zf.namelist()
 
         # The required package.json file is missing
         if not validator.has_package_json(files):
@@ -98,7 +98,7 @@ def main(package) -> bool:
             return False
 
         # Extract and validate package.json
-        z.extract("package.json", app_utils.temp_path)
+        zf.extract("package.json", app_utils.temp_path)
         validate_result = validator.package_json(
             os.path.join(app_utils.temp_path, "package.json"))
 
@@ -125,7 +125,7 @@ def main(package) -> bool:
         # Install the package
         logging.info(f"Extracting package to {extract_path}")
         print("Installing package...")
-        z.extractall(extract_path, files)
+        zf.extractall(extract_path, files)
 
     # Compress the JAM
     jam_result = legojam.build()
