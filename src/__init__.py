@@ -57,8 +57,8 @@ def main():
     if arguments["command"] in commmands.keys():
         commmands[arguments["command"]](arguments["value"])
 
-    # Only the app was run, display help
-    elif arguments["command"] is None:
+    # The app was run bare or with an unknown command, display help
+    else:
         commmands["help"]("help")
 
     raise SystemExit(0)
