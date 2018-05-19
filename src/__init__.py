@@ -29,7 +29,7 @@ def get_arguments():
         "value": None
     }
 
-    # Collect the arguments passed
+    # Collect the passed arguments
     try:
         result["command"] = sys.argv[1]
         result["value"] = sys.argv[2]

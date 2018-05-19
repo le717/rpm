@@ -132,7 +132,7 @@ def __main(action):
         # The JAM has already been extracted
         if pre_extracted["result"]:
             logging.info("LEGO.JAM has already been extracted")
-            return pre_extracted["result"]
+            return pre_extracted
 
         # The JAM needs to be extracted
         else:

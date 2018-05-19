@@ -78,6 +78,8 @@ def main(package) -> bool:
         return False
 
     # Extract the JAM
+    # TODO This fails in most cases,
+    # need to fix legojam module return values
     r = legojam.extract()
     jam_result = r["result"]
     extract_path = r["path"]
@@ -85,13 +87,13 @@ def main(package) -> bool:
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
-    # TODO, maybe? shutil.unpack_archive, ZipFile.extract
+    # Getting ready to install the package
+    package_files = []
     with ZipFile(package, "r") as zf:
-        # Get the package contents
-        files = zf.namelist()
+        package_files = zf.namelist()
 
         # The required package.json file is missing
-        if not validator.has_package_json(files):
+        if not validator.has_package_json(package_files):
             logging.warning("package.json not found!")
             print(colored.red(
                   "Package is missing package.json and cannot be installed!"))
@@ -120,12 +122,12 @@ def main(package) -> bool:
         # from the archive listing so it is not extracted
         package_details = jsonutils.read(
             os.path.join(app_utils.temp_path, "package.json"))
-        files.remove("package.json")
+        package_files.remove("package.json")
 
         # Install the package
         logging.info(f"Extracting package to {extract_path}")
         print("Installing package...")
-        zf.extractall(extract_path, files)
+        zf.extractall(extract_path, package_files)
 
     # Compress the JAM
     jam_result = legojam.build()
@@ -135,5 +137,7 @@ def main(package) -> bool:
 
     # TODO Keep log of installed packages
     logging.info("Installation complete!")
-    print(f"{package_details['name']} {package_details['version']} sucessfully installed.")
+    print("{0} {1} sucessfully installed.".format(
+        package_details['name'], package_details['version']
+    ))
     return True
