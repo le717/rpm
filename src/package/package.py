@@ -12,7 +12,7 @@ Licensed under The MIT License
 
 import os
 import logging
-from zipfile import ZipFile, is_zipfile
+from zipfile import ZIP_DEFLATED, ZipFile, is_zipfile
 
 from src.utils import jsonutils, utils
 
@@ -84,20 +84,13 @@ def main(directory: str) -> bool:
                 "rel_path": abs_path.replace(f"{directory}{os.path.sep}", "")
             })
 
-    # print(directory)
-    # print(package_archive_name)
-    # print(package_archive_loc)
-    # import pprint
-    # pprint.pprint(package_files)
-
     # Compress all files into a zip archive
-    # TODO Explore archive compression (likely ZIP_DEFLATED)
-    with ZipFile(package_archive_loc, "w") as zf:
+    with ZipFile(package_archive_loc, "w", compression=ZIP_DEFLATED) as zf:
         for f in package_files:
             zf.write(f["abs_path"], f["rel_path"])
 
     # For some reason, packaging failed
     # TODO Likely need a try...catch here
-    if not is_zipfile(package_details):
+    if not is_zipfile(package_archive_loc):
         return False
     return True
