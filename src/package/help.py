@@ -15,7 +15,7 @@ and used when saving the package.
 This command could take a few minutes to run, depending on the
 amount of files the package contains.
 
-File filtering is not performed when creating a completed package.
+Extensive file filtering is not performed while creating a package.
 It is your responsibility to ensure all files in the directory should be
 included in the final package.
 """

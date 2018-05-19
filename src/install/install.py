@@ -13,30 +13,12 @@ Licensed under The MIT License
 import os
 import logging
 from zipfile import ZipFile, is_zipfile
-from clint.textui import colored
 
 from src.settings import user
 from src.utils import legojam, jsonutils, utils
 from src.validator import validator
 
 __all__ = ("main")
-
-
-def __display_message(error: dict) -> bool:
-    # Determine the proper color to use
-    # Red for errors, yellow for warnings
-    color = (colored.red if error["result"] == "error"
-             else colored.yellow)
-    print(color(
-        f"{error['result'].capitalize()}: {error['message']}",
-        bold=True
-    ))
-
-    # If this is an error, we'll need to abort the process
-    # once all errors are reported
-    if error["result"] == "error":
-        return True
-    return False
 
 
 def __abort_install() -> bool:
@@ -57,7 +39,7 @@ def main(package) -> bool:
     # We do not have a set game location
     if not os.path.isdir(settings.get("gameLocation")):
         logging.warning("User has not yet configured settings!")
-        __display_message({
+        utils.display_message({
             "result": "error",
             "message": "You need to configure your settings before installing!"
         })
@@ -66,7 +48,7 @@ def main(package) -> bool:
     # No package was given
     if package is None:
         logging.warning("No package was specified!")
-        __display_message({
+        utils.display_message({
             "result": "error",
             "message": "No package was specified for installation!"
         })
@@ -76,7 +58,7 @@ def main(package) -> bool:
     package = os.path.abspath(package)
     if not is_zipfile(package):
         logging.warning("Package specified is not a valid archive!")
-        __display_message({
+        utils.display_message({
             "result": "error",
             "message": "The file specified is not a valid package!"
         })
@@ -101,7 +83,7 @@ def main(package) -> bool:
         # The required package.json file is missing
         if not validator.has_package_json(package_files):
             logging.warning("File package.json not found!")
-            __display_message({
+            utils.display_message({
                 "result": "error",
                 "message": "Package is missing package.json and cannot be installed!"
             })
@@ -113,7 +95,7 @@ def main(package) -> bool:
             os.path.join(app_utils.temp_path, "package.json"))
 
         # Validation errors occurred
-        # TODO Does this need to occur here or in package task?
+        # TODO Does this need to occur here or in `package` command?
         if validate_result:
             logging.warning("package.json validation errors occurred!")
             print("\nThe following package.json errors were found:")
@@ -121,7 +103,7 @@ def main(package) -> bool:
             # Display each validation error message
             should_abort = False
             for error in validate_result:
-                should_abort = __display_message(error)
+                should_abort = utils.display_message(error)
 
             # A fatal error occurred, we cannot continue on
             if should_abort:
@@ -147,7 +129,7 @@ def main(package) -> bool:
 
     # TODO Keep persistent log of installed packages and files
     logging.info("Installation complete!")
-    print("{0} {1} sucessfully installed.".format(
+    print("{} {} sucessfully installed.".format(
         package_details['name'], package_details['version']
     ))
     return True
