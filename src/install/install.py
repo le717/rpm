@@ -57,21 +57,29 @@ def main(package) -> bool:
     # We do not have a set game location
     if not os.path.isdir(settings.get("gameLocation")):
         logging.warning("User has not yet configured settings!")
-        print(colored.red(
-              "You need to configure your settings before installing!"))
+        __display_message({
+            "result": "error",
+            "message": "You need to configure your settings before installing!"
+        })
         return False
 
     # No package was given
     if package is None:
         logging.warning("No package was specified!")
-        print(colored.red("No package was specified for installation."))
+        __display_message({
+            "result": "error",
+            "message": "No package was specified for installation!"
+        })
         return False
 
     # The package path given does not exist or is not a valid zip
     package = os.path.abspath(package)
     if not is_zipfile(package):
         logging.warning("Package specified is not a valid archive!")
-        print(colored.red("The file specified is not a valid package!"))
+        __display_message({
+            "result": "error",
+            "message": "The file specified is not a valid package!"
+        })
         return False
 
     # Extract the JAM
@@ -81,6 +89,7 @@ def main(package) -> bool:
     jam_result = r["result"]
     extract_path = r["path"]
     if not jam_result:
+        # TODO Tell the user what happened
         logging.warning("There was an error extracting LEGO.JAM!")
         return False
 
@@ -91,9 +100,11 @@ def main(package) -> bool:
 
         # The required package.json file is missing
         if not validator.has_package_json(package_files):
-            logging.warning("package.json not found!")
-            print(colored.red(
-                  "Package is missing package.json and cannot be installed!"))
+            logging.warning("File package.json not found!")
+            __display_message({
+                "result": "error",
+                "message": "Package is missing package.json and cannot be installed!"
+            })
             return False
 
         # Extract and validate package.json
@@ -102,9 +113,10 @@ def main(package) -> bool:
             os.path.join(app_utils.temp_path, "package.json"))
 
         # Validation errors occurred
+        # TODO Does this need to occur here or in package task?
         if validate_result:
             logging.warning("package.json validation errors occurred!")
-            print("\nThe following errors in package.json were found:")
+            print("\nThe following package.json errors were found:")
 
             # Display each validation error message
             should_abort = False
@@ -129,6 +141,7 @@ def main(package) -> bool:
     # Compress the JAM
     jam_result = legojam.build()
     if not jam_result:
+        # TODO Tell the user what happened
         logging.warning("There was an error building LEGO.JAM!")
         return False
 
