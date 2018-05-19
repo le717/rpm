@@ -75,11 +75,13 @@ def __find_extracted_jam(path: str) -> dict:
     return results
 
 
-def config_2001_copy(path: str)-> bool:
+def config_2001_copy(path: str) -> bool:
     """
-    Configure a 2001 game release to run without a JAM archive,
-    as explained on the following website:
-    http://www.rockraidersunited.com/topic/7178-the-2001-version-loads-gamedata-menudata-folders-if-an-emtpy-valid-legojam-file-is-present/
+    Configure a 2001 game release to run without a JAM archive.
+    @link{http://www.rockraidersunited.com/topic/7178-the-2001-version-loads-gamedata-menudata-folders-if-an-emtpy-valid-legojam-file-is-present/}
+
+    @param {String} path - An absolute path to game installation.
+    @return {Boolean}
     """
     # If the JAM has already been extracted, we have nothing to do here
     logging.info("Check if we even need to configure the game")
@@ -98,8 +100,9 @@ def config_2001_copy(path: str)-> bool:
     distutils.dir_util.copy_tree(os.path.join(path, "LEGO"), path)
     distutils.dir_util.remove_tree(os.path.join(path, "LEGO"))
 
-    # Rename the existing JAM archive and grab our dummy archive
-    logging.info("Backup the existing JAM and add our dummy file in its place")
+    # Rename the existing JAM archive and grab our dummy JAM
+    # TODO Handle copying the dummy JAM better for distribution
+    logging.info("Rename the existing JAM and add our dummy file in its place")
     os.rename(os.path.join(path, "LEGO.JAM"),
               os.path.join(path, "PRE-RPM-LEGO.JAM"))
     shutil.copy2(os.path.join(utils.AppUtils().config_path, "LEGO.JAM"),

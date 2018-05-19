@@ -10,6 +10,6 @@ def main():
 
 DESCRIPTION
 This command installs the specified package into your game.
-Place packages in the same directory as {const.APP_NAME}
-for automatic discovery or provide a fully-qualified file path to the package."""
+Place packages in the same directory as {const.APP_NAME} for automatic
+discovery or provide a fully-qualified file path to the package."""
     print(message)
