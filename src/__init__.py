@@ -15,6 +15,7 @@ import sys
 from src.help import help
 from src.init import init
 from src.install import install
+from src.package import package
 from src.settings import settings
 from src.utils import logger
 
@@ -47,6 +48,7 @@ def main():
         "help": help.main,
         "init": init.main,
         "install": install.main,
+        "package": package.main,
         "settings": settings.main
     }
 
