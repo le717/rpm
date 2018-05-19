@@ -22,7 +22,7 @@ from src.validator import validator
 __all__ = ("main")
 
 
-def display_message(error: dict) -> bool:
+def __display_message(error: dict) -> bool:
     # Determine the proper color to use
     # Red for errors, yellow for warnings
     color = (colored.red if error["result"] == "error"
@@ -39,7 +39,7 @@ def display_message(error: dict) -> bool:
     return False
 
 
-def abort_install() -> bool:
+def __abort_install() -> bool:
     """Abort a package installation.
 
     @return {Boolean} Always returns False.
@@ -50,6 +50,17 @@ def abort_install() -> bool:
 
 
 def main(package) -> bool:
+    settings = user.load()
+    app_utils = utils.AppUtils()
+    package_details = None
+
+    # We do not have a set game location
+    if not os.path.isdir(settings.get("gameLocation")):
+        logging.warning("User has not yet configured settings!")
+        print(colored.red(
+              "You need to configure your settings before installing!"))
+        return False
+
     # No package was given
     if package is None:
         logging.warning("No package was specified!")
@@ -58,23 +69,9 @@ def main(package) -> bool:
 
     # The package path given does not exist or is not a valid zip
     package = os.path.abspath(package)
-    if not os.path.isfile(package) or not is_zipfile(package):
-        logging.warning("Package specified does not exist!")
-        print(colored.red(
-              "The given package could not be found or is not valid."
-              ))
-        return False
-
-    # Get the settings
-    settings = user.load()
-    app_utils = utils.AppUtils()
-    package_details = None
-
-    # We do not have any settings
-    if not os.path.isdir(settings.get("gameLocation")):
-        logging.warning("User has not yet configured settings!")
-        print(colored.red(
-              "You need to configure your settings before installing!"))
+    if not is_zipfile(package):
+        logging.warning("Package specified is not a valid archive!")
+        print(colored.red("The file specified is not a valid package!"))
         return False
 
     # Extract the JAM
@@ -112,11 +109,11 @@ def main(package) -> bool:
             # Display each validation error message
             should_abort = False
             for error in validate_result:
-                should_abort = display_message(error)
+                should_abort = __display_message(error)
 
             # A fatal error occurred, we cannot continue on
             if should_abort:
-                return abort_install()
+                return __abort_install()
 
         # Get the package details before removing the JSON
         # from the archive listing so it is not extracted
@@ -135,7 +132,7 @@ def main(package) -> bool:
         logging.warning("There was an error building LEGO.JAM!")
         return False
 
-    # TODO Keep log of installed packages
+    # TODO Keep persistent log of installed packages and files
     logging.info("Installation complete!")
     print("{0} {1} sucessfully installed.".format(
         package_details['name'], package_details['version']
