@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -16,7 +16,7 @@ from clint.textui import colored
 
 from src import constants as const
 
-__all__ = ("AppUtils", "Settings", "display_message")
+__all__ = ["AppUtils", "Settings", "display_message"]
 
 
 class Settings:

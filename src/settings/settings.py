@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>

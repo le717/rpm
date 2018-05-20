@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -15,7 +15,7 @@ import logging
 from src.utils import jsonutils
 from src.validator import validator
 
-__all__ = ("main", "create_package_fols")
+__all__ = ["main", "create_package_fols"]
 
 
 def __display_error(value: str, message: str):

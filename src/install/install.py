@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -18,7 +18,7 @@ from src.settings import user
 from src.utils import legojam, jsonutils, utils
 from src.validator import validator
 
-__all__ = ("main")
+__all__ = ["main"]
 
 
 def __abort_install() -> bool:

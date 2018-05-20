@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -16,7 +16,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, is_zipfile
 
 from src.utils import jsonutils, utils
 
-__all__ = ("main")
+__all__ = ["main"]
 
 
 def main(directory: str) -> bool:

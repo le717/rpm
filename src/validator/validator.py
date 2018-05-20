@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -15,9 +15,9 @@ import re
 import logging
 from src.utils import jsonutils
 
-__all__ = ("PACKAGE_NAME_MAX_LENGTH", "validate_location", "validate_name",
+__all__ = ["PACKAGE_NAME_MAX_LENGTH", "validate_location", "validate_name",
            "validate_version", "is_missing_keys", "has_package_json",
-           "package_json")
+           "package_json"]
 
 
 PACKAGE_NAME_MAX_LENGTH = 214

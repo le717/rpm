@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -15,7 +15,7 @@ import logging
 
 from src.utils import utils, jsonutils
 
-__all__ = ("load", "save")
+__all__ = ["load", "save"]
 
 fileName = os.path.join(utils.AppUtils().config_path, "user.json")
 

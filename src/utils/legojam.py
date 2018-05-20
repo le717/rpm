@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""rpm - LEGO Racers mods package manager.
+"""rpm - LEGO Racers package manager.
 
 Created 2015-2018 Caleb Ely
 <https://CodeTri.net/>
@@ -20,7 +20,7 @@ from src.lib import JAMExtractor
 from src.settings import user as userSettings
 from src.utils import utils
 
-__all__ = ("build", "config_2001_copy", "extract")
+__all__ = ["build", "config_2001_copy", "extract"]
 
 
 def __extract_jam(path: str) -> bool:
