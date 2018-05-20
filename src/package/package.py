@@ -65,7 +65,7 @@ def main(directory: str) -> bool:
 
     # Generate a listing of the package's files
     package_files = []
-    filtered_files = ("thumbs.db", "ethumbs.db", "desktop.ini")
+    filtered_files = ("thumbs.db", "ehthumbs.db", "desktop.ini", ".ds_store")
     for root, dirs, files in os.walk(directory):
         for f in files:
             # Perform super basic file filtering
